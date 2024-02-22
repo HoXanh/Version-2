@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "385045074210",
+    "project_id": "esp-g13-trainify",
+    "storage_bucket": "esp-g13-trainify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385045074210:android:6549578cc1b6dd2b5ad57b",
+        "android_client_info": {
+          "package_name": "com.fitfusion.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3AvoXSwqb-QNPAdnCec_sQTCkMds3EpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
