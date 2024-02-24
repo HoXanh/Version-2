@@ -58,5 +58,3 @@ public class Goals {
         this.trainingDays = trainingDays;
     }
 }
-
-
