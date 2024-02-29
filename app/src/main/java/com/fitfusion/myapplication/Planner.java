@@ -16,8 +16,8 @@ public class Planner extends AppCompatActivity {
         setContentView(R.layout.activity_planner);
 
 
-        Toolbar toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolBar);
+//        setSupportActionBar(toolbar);
 
 
         btn1 = findViewById(R.id.FitnessPlanBtn1);

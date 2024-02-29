@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
+    tools:context=".RegistryActivity"
     android:padding="10dp">
 
     <EditText
@@ -12,30 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:hint="Email" />
+        android:hint="email" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="password"
         android:id="@+id/password"
         android:layout_marginTop="200dp"/>
 
     <Button
-        android:id="@+id/log_in_button"
+        android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="register"
         android:layout_marginTop="300dp" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:id="@+id/signUpBtn"
-        android:layout_marginTop="350dp"/>
 
 </RelativeLayout>
-
-
-
-

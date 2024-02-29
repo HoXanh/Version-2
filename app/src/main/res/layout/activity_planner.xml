@@ -7,16 +7,16 @@
     android:orientation="vertical"
     tools:context=".Planner">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:id="@+id/toolBar"
-        android:background="@color/black"
-        android:textAlignment="textEnd"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Fitness Plan"
-        android:gravity="end"
-        app:titleTextColor="#FFF"/>
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:id="@+id/toolBar"-->
+<!--        android:background="@color/black"-->
+<!--        android:textAlignment="textEnd"-->
+<!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+<!--        app:title="Fitness Plan"-->
+<!--        android:gravity="end"-->
+<!--        app:titleTextColor="#FFF"/>-->
 
     <ScrollView
         android:layout_width="fill_parent"
