@@ -9,7 +9,7 @@
     <item
         android:id="@+id/blogPg"
         android:title="Blogs"
-        android:icon="@drawable/baseline_arrow_forward_24"/>
+        android:icon="@drawable/baseline_assignment_24"/>
 
     <item
         android:id="@+id/homePg"
@@ -18,7 +18,7 @@
     <item
         android:id="@+id/fitnessPg"
         android:title="Fitness Planner"
-        android:icon="@drawable/baseline_arrow_forward_24"/>
+        android:icon="@drawable/baseline_fitness_center_24"/>
 
     <item
         android:id="@+id/profilePg"
