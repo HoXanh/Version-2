@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.FitnessPlan;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,48 +48,35 @@ public class Planner extends AppCompatActivity {
                 // Handle error
             }
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.fitnessPg:
+                    // Intent to go to Home Activity
+                    startActivity(new Intent(Planner.this, Planner.class));
+                    return true;
+                case R.id.foodPg:
+                    // Intent to go to Dashboard Activity
+                    startActivity(new Intent(Planner.this, Planner.class));
+                    return true;
+                case R.id.blogPg:
+                    // Intent to go to Notifications Activity
+                    startActivity(new Intent(Planner.this, Blog.class));
+                    return true;
 
+                case R.id.profilePg:
+                    startActivity(new Intent(Planner.this, Profile.class));
+                    return true;
 
-
-//        Toolbar toolbar = findViewById(R.id.toolBar);
-//        setSupportActionBar(toolbar);
-
-
-//        btn1 = findViewById(R.id.FitnessPlanBtn1);
-//        btn2 = findViewById(R.id.FitnessPlanBtn2);
-//        btn3 = findViewById(R.id.FitnessPlanBtn3);
-
-//        btn1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Planner.this, SecondActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        btn2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Planner.this, SecondActivity2.class);
-//                startActivity(intent);
-//            }
-//        });
-//        btn3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Planner.this, SecondActivity3.class);
-//                startActivity(intent);
-//            }
-//        });
-
+                case R.id.homePg:
+                    startActivity(new Intent(Planner.this, MainActivity.class));
+                    return true;
+            }
+            return false;
+        });
     }
 
-//    private void setSupportActionBar(Toolbar toolbar) {
-//    }
-
-//    public void setSupportActionBar(Toolbar toolbar){
-//
-//    }
-
+    ArrayList<String> list = new ArrayList<>();
     public void populateViews(List<FitnessPlan> fitnessPlans) {
         LinearLayout parentLayout = findViewById(R.id.parentLayout); // Ensure this ID matches your layout
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -99,9 +87,10 @@ public class Planner extends AppCompatActivity {
             TextView title = view.findViewById(R.id.textViewTitle);
             TextView level = view.findViewById(R.id.textViewLevel);
             TextView duration = view.findViewById(R.id.textViewDuration);
-            // Corrected: Find imageView within the inflated 'view'
             ImageView imageView = view.findViewById(R.id.imageViewPlanImage);
+            Button button = view.findViewById(R.id.buttonGetStarted);
             String imageUrl = plan.getImage();
+            list.add(plan.getTitle());
 
             title.setText(plan.getTitle());
             level.setText(plan.getLevel());
@@ -112,6 +101,23 @@ public class Planner extends AppCompatActivity {
                     .into(imageView);
 
             parentLayout.addView(view);
+
+            button.setOnClickListener(v -> {
+                // Determine which activity to start based on some attribute of the plan
+                // For example, using the plan title
+                Intent intent;
+                if ("Losing Weight".equals(plan.getTitle()) && "Beginner".equals(plan.getLevel())) {
+                    intent = new Intent(Planner.this, SecondActivity.class);
+                } else if ("Gain Muscle".equals(plan.getTitle()) && "Intermediate".equals(plan.getLevel())){
+                    intent = new Intent(Planner.this, SecondActivity2.class);
+                }
+                else {
+                    intent = new Intent(Planner.this, SecondActivity3.class); // Default or another condition
+                }
+                startActivity(intent);
+            });
+
+
         }
 
     }
