@@ -13,6 +13,27 @@
         android:layout_height="match_parent"
         app:layout_anchorGravity="center" />
 
+<!--    <ListView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@+id/logout"-->
+<!--        android:layout_below="@+id/btnSetValue"-->
+<!--        android:layout_marginBottom="0dp"-->
+<!--        android:id="@+id/listView"/>-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewImageUrl"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Image URL will appear here"-->
+<!--        android:layout_marginTop="20dp"/>-->
+
+
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"

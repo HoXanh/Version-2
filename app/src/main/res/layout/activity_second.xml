@@ -162,7 +162,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:id="@+id/LegSwing"
+                        android:id="@+id/legswing"
                         android:orientation="horizontal">
 
 
@@ -248,7 +248,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:id="@+id/armSwing"
+                        android:id="@+id/armswing"
                         android:orientation="horizontal">
 
 
@@ -691,7 +691,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:id="@+id/Mountainclimbers"
+                        android:id="@+id/mountainclimbers"
                         android:orientation="horizontal">
 
 
@@ -771,7 +771,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:id="@+id/Lunges"
+                        android:id="@+id/lunges"
                         android:orientation="horizontal">
 
 

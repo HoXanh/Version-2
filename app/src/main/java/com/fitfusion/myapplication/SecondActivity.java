@@ -10,6 +10,7 @@ import android.widget.Button;
 public class SecondActivity extends AppCompatActivity {
 
     private Button plannerBtn;
+    int[] newArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,18 @@ public class SecondActivity extends AppCompatActivity {
 
             }
         });
+
+
+        newArray = new int[]{
+                R.id.march, R.id.legswing, R.id.armswing, R.id.squat, R.id.dynamic, R.id.squat2, R.id.pushup, R.id.mountainclimbers,
+                R.id.lunges, R.id.plank, R.id.buttkicks, R.id.highknee, R.id.armsprint
+        };
         
     }
 
     public void Imagebtnclicked(View view) {
+        for(int i = 0; i < newArray.length; i++){
 
+        }
     }
 }
