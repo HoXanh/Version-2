@@ -1,17 +1,24 @@
 package com.fitfusion.myapplication.Model;
 
+import java.util.List;
+
 public class FitnessPlan {
     //
     private String title;
     private String level;
+    private int id;
     private String duration;
     private String image; // URL to the image
     private String description;
 
+    private List<Day> days;
+
     public FitnessPlan(){}
 
 
-    public FitnessPlan(String title, String level, String duration, String image, String description) {
+    public FitnessPlan(List<Day> days, String title, String level, String duration, String image, String description) {
+        this.days = days;
+        this.id = id;
         this.title = title;
         this.level = level;
         this.duration = duration;
@@ -20,6 +27,13 @@ public class FitnessPlan {
     }
 
     // Getters and Setters
+    public List<Day> getDays(){
+        return this.days;
+    }
+
+    public int getId(){
+        return id;
+    }
     public String getTitle() {
         return title;
     }
@@ -46,6 +60,10 @@ public class FitnessPlan {
 
     public String getImage() {
         return image;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public void setImage(String image) {

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.FitnessPlan;
@@ -27,19 +28,21 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class Planner extends AppCompatActivity {
-    Button btn1, btn2, btn3;
-    FloatingActionButton btn;
+
+    FloatingActionButton homeBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planner);
-        btn = findViewById(R.id.fab);
-        btn.setOnClickListener(new View.OnClickListener() {
+        homeBtn = findViewById(R.id.fab);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Planner.this, MainActivity.class));
             }
         });
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app/").getReference("fitness_plans");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,8 +69,8 @@ public class Planner extends AppCompatActivity {
                     startActivity(new Intent(Planner.this, Planner.class));
                     return true;
                 case R.id.foodPg:
-                    // Intent to go to Dashboard Activity
-                    startActivity(new Intent(Planner.this, Planner.class));
+                    startActivity(new Intent(Planner.this, Blog.class));
+
                     return true;
                 case R.id.blogPg:
                     // Intent to go to Notifications Activity
@@ -87,6 +90,7 @@ public class Planner extends AppCompatActivity {
     }
 
     ArrayList<String> list = new ArrayList<>();
+
     public void populateViews(List<FitnessPlan> fitnessPlans) {
         LinearLayout parentLayout = findViewById(R.id.parentLayout); // Ensure this ID matches your layout
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -110,41 +114,22 @@ public class Planner extends AppCompatActivity {
                     .load(imageUrl)
                     .into(imageView);
 
-            parentLayout.addView(view);
-
-            button.setOnClickListener(v -> {
-                // Determine which activity to start based on some attribute of the plan
-                // For example, using the plan title
-                Intent intent;
-                if ("Losing Weight".equals(plan.getTitle()) && "Beginner".equals(plan.getLevel())) {
-                    intent = new Intent(Planner.this, SecondActivity.class);
-                } else if ("Gain Muscle".equals(plan.getTitle()) && "Intermediate".equals(plan.getLevel())){
-                    intent = new Intent(Planner.this, SecondActivity2.class);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int planId = plan.getId(); // Retrieving the tag
+                    Intent intent = new Intent(Planner.this, SecondActivity2.class);
+                    intent.putExtra("NUMBER_KEY", planId);
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Plan clicked: " + plan.getTitle(), Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    intent = new Intent(Planner.this, SecondActivity3.class); // Default or another condition
-                }
-                startActivity(intent);
             });
 
 
+            parentLayout.addView(view);
+
         }
-
-    }
-
-
-
-    public void LosingWeight(View view){
-        Intent intent = new Intent(Planner.this, SecondActivity.class);
-        startActivity(intent);
-    }
-    public void GainMuscle(View view) {
-        Intent intent = new Intent(Planner.this, SecondActivity2.class);
-        startActivity(intent);
-    }
-
-    public void GainStrength(View view) {
-        Intent intent = new Intent(Planner.this, SecondActivity3.class);
-        startActivity(intent);
     }
 }
+
+

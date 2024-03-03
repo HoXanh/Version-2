@@ -1,0 +1,152 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="fill_parent"-->
+<!--    android:layout_height="100dp"-->
+<!--    android:orientation="vertical">-->
+<!--&lt;!&ndash;    android:layout_gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;    android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:onClick="Imagebtnclicked"&ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10.0dp"-->
+<!--            android:layout_weight="1.0"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textViewExerciseName"-->
+<!--                android:layout_width="230dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="monospace"-->
+<!--                android:text="Exercise Name"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="#ff000000"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="15dp"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textViewReps"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Reps"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="#00008B" />-->
+
+<!--        </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="2.0">-->
+
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imageViewExercise"-->
+<!--                android:src="@drawable/highknee"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:adjustViewBounds="true"/>-->
+
+<!--        </LinearLayout>-->
+
+
+<!--&lt;!&ndash;    </LinearLayout>&ndash;&gt;-->
+<!--    <TableRow-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:background="#ffaaa9a9"/>-->
+<!--</LinearLayout>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+<!--        android:layout_margin="10dp"-->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10.0dp"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewExerciseName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="Exercise Name"
+                android:textAllCaps="true"
+                android:textColor="#ff000000"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/textViewReps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rep Info"
+                android:textStyle="bold"
+                android:textColor="#00008B"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.0">
+
+
+            <ImageView
+                android:id="@+id/imageViewExercise"
+                android:layout_width="wrap_content"
+                android:maxWidth="100dp"
+                android:src="@drawable/highknee"
+                android:paddingLeft="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="65dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="0.0">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10.0dp"
+                android:src="@drawable/baseline_arrow_forward_24"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#ffaaa9a9"/>
+
+
+</LinearLayout>
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="fill_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_margin="10dp"-->
+<!--android:orientation="horizontal">-->
+
