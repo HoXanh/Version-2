@@ -3,6 +3,7 @@ package com.fitfusion.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,24 +19,21 @@ import com.fitfusion.myapplication.Model.Exercise;
 import com.fitfusion.myapplication.Model.FitnessPlan;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-public class SecondActivity2 extends AppCompatActivity {
+public class ExerciseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second2);
+        setContentView(R.layout.activity_exercise);
         int planId  = getIntent().getIntExtra("NUMBER_KEY", 1);
         Log.d("SecondActivity", "Received Number: " + planId);
 
@@ -117,10 +115,35 @@ public class SecondActivity2 extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("SecondActivity2", "loadPost:onCancelled", databaseError.toException());
+                Log.w("ExerciseActivity", "loadPost:onCancelled", databaseError.toException());
             }
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.fitnessPg:
+                    // Intent to go to Home Activity
+                    startActivity(new Intent(ExerciseActivity.this, Planner.class));
+                    return true;
+                case R.id.foodPg:
+                    startActivity(new Intent(ExerciseActivity.this, Blog.class));
 
+                    return true;
+                case R.id.blogPg:
+                    // Intent to go to Notifications Activity
+                    startActivity(new Intent(ExerciseActivity.this, Blog.class));
+                    return true;
+
+                case R.id.profilePg:
+                    startActivity(new Intent(ExerciseActivity.this, Profile.class));
+                    return true;
+
+                case R.id.homePg:
+                    startActivity(new Intent(ExerciseActivity.this, MainActivity.class));
+                    return true;
+            }
+            return false;
+        });
 
 
 

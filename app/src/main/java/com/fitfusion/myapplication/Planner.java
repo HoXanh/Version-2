@@ -2,7 +2,7 @@ package com.fitfusion.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +118,7 @@ public class Planner extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     int planId = plan.getId(); // Retrieving the tag
-                    Intent intent = new Intent(Planner.this, SecondActivity2.class);
+                    Intent intent = new Intent(Planner.this, ExerciseActivity.class);
                     intent.putExtra("NUMBER_KEY", planId);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Plan clicked: " + plan.getTitle(), Toast.LENGTH_SHORT).show();

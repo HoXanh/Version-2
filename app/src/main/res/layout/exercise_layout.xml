@@ -113,7 +113,6 @@
                 android:id="@+id/imageViewExercise"
                 android:layout_width="wrap_content"
                 android:maxWidth="100dp"
-                android:src="@drawable/highknee"
                 android:paddingLeft="30dp"
                 android:layout_marginBottom="5dp"
                 android:layout_height="65dp" />

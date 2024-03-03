@@ -13,6 +13,4 @@ public class Goal extends AppCompatActivity {
         setContentView(R.layout.activity_goal);
     }
 
-    public void GainMuscle(View view) {
-    }
 }
