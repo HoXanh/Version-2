@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -27,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class RegistryActivity extends AppCompatActivity {
 
     private EditText username,email, password, dob, height, weight;
-
     private Button register;
     private RadioGroup genderChoice;
     private RadioButton genderSelected;
@@ -45,6 +45,7 @@ public class RegistryActivity extends AppCompatActivity {
         dob = findViewById(R.id.dob);
         height = findViewById(R.id.height);
         weight = findViewById(R.id.weight);
+
 
         register = findViewById(R.id.register);
         genderChoice = findViewById(R.id.gender);
@@ -64,6 +65,7 @@ public class RegistryActivity extends AppCompatActivity {
                 String txt_height= height.getText().toString();
                 String txt_weight = weight.getText().toString();
                 String txt_gender;
+
 
                 if (txt_password.isEmpty() || txt_email.isEmpty()){
                     Toast.makeText(RegistryActivity.this, "Empty Credential!!!", Toast.LENGTH_SHORT).show();

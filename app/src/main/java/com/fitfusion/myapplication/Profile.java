@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
     private TextView usernameTV,emailTV, dobTV,genderTV, heightTV, weightTV;
+    private ImageView profileImageView;
     private String username, email, dob, gender, height, weight;
     private FirebaseAuth authProfile;
 
@@ -31,6 +33,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        profileImageView = findViewById(R.id.profilepic);
         usernameTV = findViewById(R.id.usernameTV);
         emailTV = findViewById(R.id.emailTV);
         dobTV = findViewById(R.id.dobTV);
@@ -48,32 +51,32 @@ public class Profile extends AppCompatActivity {
             showUserProfile(fbUser);
         }
 //
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-//            switch (item.getItemId()) {
-//                case R.id.fitnessPg:
-//                    // Intent to go to Home Activity
-//                    startActivity(new Intent(Profile.this, Planner.class));
-//                    return true;
-//                case R.id.foodPg:
-//                    startActivity(new Intent(Profile.this, Blog.class));
-//
-//                    return true;
-//                case R.id.blogPg:
-//                    // Intent to go to Notifications Activity
-//                    startActivity(new Intent(Profile.this, Blog.class));
-//                    return true;
-//
-//                case R.id.profilePg:
-//                    startActivity(new Intent(Profile.this, Profile.class));
-//                    return true;
-//
-//                case R.id.homePg:
-//                    startActivity(new Intent(Profile.this, MainActivity.class));
-//                    return true;
-//            }
-//            return false;
-//        });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.fitnessPg:
+                    // Intent to go to Home Activity
+                    startActivity(new Intent(Profile.this, Planner.class));
+                    return true;
+                case R.id.foodPg:
+                    startActivity(new Intent(Profile.this, Blog.class));
+
+                    return true;
+                case R.id.blogPg:
+                    // Intent to go to Notifications Activity
+                    startActivity(new Intent(Profile.this, Blog.class));
+                    return true;
+
+                case R.id.profilePg:
+                    startActivity(new Intent(Profile.this, Profile.class));
+                    return true;
+
+                case R.id.homePg:
+                    startActivity(new Intent(Profile.this, MainActivity.class));
+                    return true;
+            }
+            return false;
+        });
     }
 
     private void showUserProfile(FirebaseUser fbUser) {
@@ -85,19 +88,19 @@ public class Profile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserProfile readUserDetails = snapshot.getValue(UserProfile.class);
                 if (readUserDetails != null){
-                    username= readUserDetails.getUsername();
+                    username = readUserDetails.getUsername();
                     email = fbUser.getEmail();
                     dob = readUserDetails.getDob();
                     gender = readUserDetails.getGender();
                     height = readUserDetails.getHeight();
                     weight = readUserDetails.getWeight();
 
-                    usernameTV.setText("Welcome" + username + "!");
+                    usernameTV.setText(username);
                     emailTV.setText(email);
                     dobTV.setText(dob);
                     genderTV.setText(gender);
-                    heightTV.setText(height);
-                    weightTV.setText(weight);
+                    heightTV.setText(height + " cm");
+                    weightTV.setText(weight + " kg");
                 }
             }
 

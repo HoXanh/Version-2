@@ -5,18 +5,27 @@ package com.fitfusion.myapplication.Model;
 
 public class UserProfile {
     //unit_settings: convert for US users
-    public String username, gender, dob,height,weight;
+    public String username, gender, dob,height,weight, image;
 
 
     public UserProfile() {
         // Default constructor required for calls to DataSnapshot.getValue(UserProfile.class)
     }
-    public UserProfile(String username, String gender, String dob, String height, String weight){
+    public UserProfile(String username, String gender, String dob, String height, String weight, String image){
         this.username = username;
         this.gender = gender;
         this.dob = dob;
         this.height = height;
         this.weight = weight;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getUsername() {

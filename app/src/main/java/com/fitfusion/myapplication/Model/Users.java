@@ -6,16 +6,27 @@ public class Users {
 
     //unit_settings: convert for US users
     private String username,email,gender,dob,height,weight;
-    public Users(String username,String email, String gender, String dob, String height, String weight){
+
+
+
+    public Users(String username, String email, String gender, String dob, String height, String weight){
         this.username = username;
         this.email = email;
         this.gender = gender;
         this.dob = dob;
         this.height = height;
         this.weight = weight;
+//        this.image = image;
 
     }
 
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
     public String getUsername() {
         return username;
     }
