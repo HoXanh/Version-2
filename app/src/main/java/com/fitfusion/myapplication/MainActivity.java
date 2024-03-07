@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, Planner.class));
                     return true;
                 case R.id.blogPg:
-
                     Intent intent = new Intent(this, Blog.class);
                     startActivity(intent);
                     return true;
