@@ -44,7 +44,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="25dp"
-                    android:translationX="150dp"
+                    android:translationX="165dp"
                     android:translationY="40dp" />
 
                 <ImageView
