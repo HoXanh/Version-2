@@ -5,7 +5,7 @@ public class Users {
 
 
     //unit_settings: convert for US users
-    private String username,email,gender,dob,height,weight;
+    private String username,email,gender,dob,height,weight,imageUrl;
 
 
 
@@ -16,17 +16,11 @@ public class Users {
         this.dob = dob;
         this.height = height;
         this.weight = weight;
-//        this.image = image;
+//        this.imageUrl = imageUrl;
 
     }
 
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
+
     public String getUsername() {
         return username;
     }
@@ -57,6 +51,14 @@ public class Users {
 
     public String getWeight() {return weight;}
     public void setWeight(String weight) {this.weight = weight;}
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
 }
 

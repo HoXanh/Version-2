@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.UserProfile;
 import com.fitfusion.myapplication.Model.Users;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,7 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 public class Profile extends AppCompatActivity {
     private TextView usernameTV,emailTV, dobTV,genderTV, heightTV, weightTV;
     private ImageView profileImageView;
-    private String username, email, dob, gender, height, weight;
+    private ImageButton moveToEditProfileBtn, logOutBtn;
+    private String username, email, dob, gender, height, weight, imageUrl;
     private FirebaseAuth authProfile;
 
     @Override
@@ -40,6 +44,9 @@ public class Profile extends AppCompatActivity {
         genderTV = findViewById(R.id.gender_Text_View);
         heightTV = findViewById(R.id.heightTV);
         weightTV = findViewById(R.id.weightTV);
+        logOutBtn = findViewById(R.id.logout);
+
+        moveToEditProfileBtn = findViewById(R.id.my_circular_image_button);
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser fbUser = authProfile.getCurrentUser();
@@ -50,6 +57,22 @@ public class Profile extends AppCompatActivity {
         } else {
             showUserProfile(fbUser);
         }
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(Profile.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Profile.this, Login.class));
+                finish();
+            }
+        });
+        moveToEditProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] passUserProfile = {username, dob, gender,height,weight, imageUrl, email};
+                passUserData(passUserProfile);
+            }
+        });
 //
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -79,6 +102,12 @@ public class Profile extends AppCompatActivity {
         });
     }
 
+    private void passUserData(String[] userData) {
+        Intent intent = new Intent(Profile.this, EditProfile.class);
+        intent.putExtra("UserPassData", userData);
+        startActivity(intent);
+    }
+
     private void showUserProfile(FirebaseUser fbUser) {
         String userID = fbUser.getUid();
 
@@ -94,7 +123,11 @@ public class Profile extends AppCompatActivity {
                     gender = readUserDetails.getGender();
                     height = readUserDetails.getHeight();
                     weight = readUserDetails.getWeight();
+                    imageUrl = readUserDetails.getImageUrl();
 
+                    if (imageUrl != null) {
+                        Glide.with(Profile.this).load(imageUrl).circleCrop().into(profileImageView);
+                    }
                     usernameTV.setText(username);
                     emailTV.setText(email);
                     dobTV.setText(dob);

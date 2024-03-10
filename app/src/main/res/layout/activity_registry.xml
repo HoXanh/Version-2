@@ -56,13 +56,30 @@
             android:id="@+id/gender_male"/>
     </RadioGroup>
 
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginLeft="230dp"
+        android:src="@drawable/profilepic" />
+
+    <Button
+        android:id="@+id/select_image_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="340dp"
+        android:layout_marginLeft="207dp"
+        android:text="Select Image" />
+
+
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Date of Birth (dd/mm/yyyy)"
         android:id="@+id/dob"
-        android:layout_marginTop="380dp"/>
+        android:layout_marginTop="390dp"/>
 
 
     <EditText

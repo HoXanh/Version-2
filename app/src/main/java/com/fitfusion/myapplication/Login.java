@@ -1,5 +1,6 @@
 package com.fitfusion.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +46,12 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String txt_email = email.getText().toString();
                 String txt_password = password.getText().toString();
-                loginUser(txt_email, txt_password);
+                if (txt_email.isEmpty() || txt_password.isEmpty()){
+                    Toast.makeText(Login.this, "Email or Password is Empty!!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    loginUser(txt_email, txt_password);
+                }
+
             }
         });
 
@@ -59,14 +66,23 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password) {
-        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                Toast.makeText(Login.this, "Login User Successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Login.this, MainActivity.class));
-                finish();
-            }
-        });
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(Login.this, "Login User Successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Login.this, MainActivity.class));
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failure
+                        Toast.makeText(Login.this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }
 
