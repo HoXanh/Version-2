@@ -14,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.fitfusion.myapplication.Model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -209,7 +213,14 @@ public class RegistryActivity extends AppCompatActivity {
             if (txt_username.isEmpty()) errorMessage.append("Username is required. ");
             if (txt_email.isEmpty() || !isValidEmail(txt_email) errorMessage.append("Valid email is required. ");
             if (txt_password.isEmpty() || txt_password.length() < 6) errorMessage.append("A stronger password with length greater than 6 is required. ");
-            if (txt_dob.isEmpty()) errorMessage.append("Date of Birth is required. ");
+            if (txt_dob.isEmpty()) {
+                errorMessage.append("Date of Birth is required. ");
+            } else if (!isValidFormat("dd/MM/yyyy", txt_dob) ) {
+                errorMessage.append("Date of Birth must be in dd/MM/yyyy format. ");
+            } 
+            if (!isOlderThan18(txt_dob)){
+                errorMessage.append("User must be at least 18 years old. ");
+            }
             if (txt_height.isEmpty()) errorMessage.append("Height is required. ");
             if (txt_weight.isEmpty()) errorMessage.append("Weight is required. ");
             if (txt_gender.isEmpty()) errorMessage.append("Gender is required. ");
@@ -248,6 +259,33 @@ public class RegistryActivity extends AppCompatActivity {
         Pattern EMAIL_PATTERN = 
             Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
         return EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    private boolean isValidFormat(String format, String value) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setLenient(false); // Don't automatically roll dates over
+        try {
+            sdf.parse(value);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private boolean isOlderThan18(String dob) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar dobCalendar = Calendar.getInstance();
+        try {
+            dobCalendar.setTime(sdf.parse(dob));
+        } catch (ParseException e) {
+            return false;
+        }
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < dobCalendar.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+        return age >= 18;
     }
 
     private void registerUser(String username, String email, String password, String gender, String dob, String height, String weight) {
