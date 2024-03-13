@@ -1,72 +1,273 @@
+//package com.fitfusion.myapplication;
+//
+//
+//
+//import androidx.annotation.NonNull;
+//import androidx.annotation.Nullable;
+//import androidx.appcompat.app.AppCompatActivity;
+//
+//import android.content.Intent;
+//import android.net.Uri;
+//import android.os.Bundle;
+//import android.view.View;
+//import android.widget.Button;
+//import android.widget.EditText;
+//import android.widget.ImageButton;
+//import android.widget.ImageView;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//
+//import com.bumptech.glide.Glide;
+//import com.fitfusion.myapplication.Model.ChangeUserProfile;
+//import com.fitfusion.myapplication.Model.UserProfile;
+//import com.fitfusion.myapplication.Model.Users;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.android.material.bottomnavigation.BottomNavigationView;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.ValueEventListener;
+//import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.UploadTask;
+//
+//import org.w3c.dom.Text;
+//
+//public class EditProfile extends AppCompatActivity {
+//    private static final int PICK_IMAGE_REQUEST = 1;
+//    private EditText usernameET, dobET,genderET, heightET, weightET;
+//    private String username, dob, gender, height,weight, imageUrl, email;
+//
+//    private TextView emailTV;
+//    private ImageButton editProfileBtn, changeProfileImageBtn;
+//    private ImageView profilepic;
+//    private String[] userData;
+//    private FirebaseAuth authProfile;
+//    private Uri imageUri;
+//
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_edit_profile);
+//        userData = getIntent().getStringArrayExtra("UserPassData");
+//        emailTV = findViewById(R.id.emailTV);
+//        profilepic = findViewById(R.id.profilepic);
+//        usernameET = findViewById(R.id.usernameET);
+//        dobET = findViewById(R.id.dobET);
+//        genderET = findViewById(R.id.genderET);
+//        heightET = findViewById(R.id.heightET);
+//        weightET = findViewById(R.id.weightET);
+//
+//        editProfileBtn = findViewById(R.id.changeProfileBtn);
+//        changeProfileImageBtn = findViewById(R.id.changeProfileImageBtn);
+//
+//        authProfile = FirebaseAuth.getInstance();
+//        FirebaseUser fbUser = authProfile.getCurrentUser();
+//        showUser(userData);
+//
+//        changeProfileImageBtn.setOnClickListener(v -> openFileChooser());
+//
+//        // Save changes button
+//        editProfileBtn.setOnClickListener(v -> {
+//            if (fbUser != null) {
+//                editProfile(fbUser);
+//            }
+//        });
+//
+//
+//
+//
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+//            switch (item.getItemId()) {
+//                case R.id.fitnessPg:
+//                    // Intent to go to Home Activity
+//                    startActivity(new Intent(EditProfile.this, Planner.class));
+//                    return true;
+//                case R.id.foodPg:
+//                    startActivity(new Intent(EditProfile.this, Blog.class));
+//
+//                    return true;
+//                case R.id.blogPg:
+//                    // Intent to go to Notifications Activity
+//                    startActivity(new Intent(EditProfile.this, Blog.class));
+//                    return true;
+//
+//                case R.id.profilePg:
+//                    startActivity(new Intent(EditProfile.this, Profile.class));
+//                    return true;
+//
+//                case R.id.homePg:
+//                    startActivity(new Intent(EditProfile.this, MainActivity.class));
+//                    return true;
+//            }
+//            return false;
+//        });
+//
+//
+//
+//
+//    }
+//
+//
+//    private void openFileChooser() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+//            imageUri = data.getData();
+//            Glide.with(this).load(imageUri).into(profilepic);
+//        }
+//    }
+//
+//    private void uploadImage(FirebaseUser fbUser, Users user) {
+//        if (imageUri != null) {
+//            StorageReference fileReference = FirebaseStorage.getInstance().getReference("uploads").child(fbUser.getUid() + ".jpg");
+//
+//            fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+//                        String imageUrl = uri.toString();
+//                        user.setImageUrl(imageUrl); // Assuming Users model has an imageUrl field setter
+//                        updateUserDetails(fbUser, user);
+//                    });
+//                }
+//            }).addOnFailureListener(e -> Toast.makeText(EditProfile.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+//        } else {
+//            // If no image was selected, proceed to save other details
+//            updateUserDetails(fbUser, user);
+//        }
+//    }
+//
+//    private void updateUserDetails(FirebaseUser fbUser, Users user) {
+//        DatabaseReference refProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");
+//        refProfile.child(fbUser.getUid()).setValue(user).addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                Toast.makeText(EditProfile.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(EditProfile.this, Login.class));
+//                finish();
+//            } else {
+//                Toast.makeText(EditProfile.this, "Failed to register: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void editProfile(FirebaseUser fbUser) {
+//
+//        String userID = fbUser.getUid();
+//
+//        username = usernameET.getText().toString().trim();
+//        dob = dobET.getText().toString().trim();
+//        gender = genderET.getText().toString().trim();
+//        height = heightET.getText().toString().trim();
+//        weight = weightET.getText().toString().trim();
+//
+//
+//
+//        UserProfile updateUserProfile = new UserProfile(username, email, gender, dob, height, weight, imageUrl);
+//        updateUserProfile.setImageUrl(imageUrl);
+//        DatabaseReference refEditProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");
+//        refEditProfile.child(userID).setValue(updateUserProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                Toast.makeText(EditProfile.this,"Update User Profile Successful", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(EditProfile.this, Profile.class));
+//                finish();
+//            }
+//        });
+//
+//
+//    }
+//
+//
+//    private void showUser(String[] userData) {
+//        username = userData[0];
+//        dob = userData[1];
+//        gender = userData[2];
+//        height = userData[3];
+//        weight = userData[4];
+//        imageUrl = userData[5];
+//        email = userData[6];
+//
+//        if (imageUrl != null) {
+//            Glide.with(EditProfile.this).load(imageUrl).circleCrop().into(profilepic);
+//        }
+//        emailTV.setText(email);
+//        usernameET.setText(username);
+//        dobET.setText(dob);
+//        genderET.setText(gender);
+//        heightET.setText(height);
+//        weightET.setText(weight);
+//    }
+//
+//
+//}
+
+
 package com.fitfusion.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.fitfusion.myapplication.Model.ChangeUserProfile;
 import com.fitfusion.myapplication.Model.UserProfile;
-import com.fitfusion.myapplication.Model.Users;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.fitfusion.myapplication.Model.Users; // Ensure this is the path to your Users model
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class EditProfile extends AppCompatActivity {
-    private EditText usernameET, dobET,genderET, heightET, weightET;
-    private String username, dob, gender, height,weight, imageUrl, email;
-
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private String username, dob, gender, height,weight, email;
+    private EditText usernameET, dobET, genderET, heightET, weightET;
     private TextView emailTV;
-    private ImageButton editProfileBtn;
-    private ImageView profilepic;
-    private String[] userData;
+    private ImageView profilePic;
+    private Uri imageUri;
     private FirebaseAuth authProfile;
+    private String[] userData;
+    private String imageUrl = ""; // Initialize to an empty string or null based on your logic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         userData = getIntent().getStringArrayExtra("UserPassData");
-        emailTV = findViewById(R.id.emailTV);
-        profilepic = findViewById(R.id.profilepic);
-        usernameET = findViewById(R.id.usernameET);
-        dobET = findViewById(R.id.dobET);
-        genderET = findViewById(R.id.genderET);
-        heightET = findViewById(R.id.heightET);
-        weightET = findViewById(R.id.weightET);
-
-        editProfileBtn = findViewById(R.id.changeProfileBtn);
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser fbUser = authProfile.getCurrentUser();
-        showUser(userData);
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (fbUser == null) {
+            // Handle user not logged in
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-                editProfle(fbUser);
-            }
-        });
-
-
+        initViews();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -94,39 +295,81 @@ public class EditProfile extends AppCompatActivity {
             return false;
         });
 
+        showUser(userData);
 
-
-
+        findViewById(R.id.changeProfileImageBtn).setOnClickListener(view -> openFileChooser());
+        findViewById(R.id.changeProfileBtn).setOnClickListener(view -> updateProfile(fbUser));
     }
 
-    private void editProfle(FirebaseUser fbUser) {
-
-        String userID = fbUser.getUid();
-
-        username = usernameET.getText().toString().trim();
-        dob = dobET.getText().toString().trim();
-        gender = genderET.getText().toString().trim();
-        height = heightET.getText().toString().trim();
-        weight = weightET.getText().toString().trim();
-
-
-        Users updateUserProfile = new Users(username, email, gender, dob, height, weight);
-        updateUserProfile.setImageUrl(imageUrl);
-        DatabaseReference refEditProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");
-        refEditProfile.child(userID).setValue(updateUserProfile).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(EditProfile.this,"Update User Profile Successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(EditProfile.this, Profile.class));
-                finish();
-            }
-        });
-
-
+    private void initViews() {
+        profilePic = findViewById(R.id.profilepic);
+        usernameET = findViewById(R.id.usernameET);
+        dobET = findViewById(R.id.dobET);
+        genderET = findViewById(R.id.genderET);
+        heightET = findViewById(R.id.heightET);
+        weightET = findViewById(R.id.weightET);
+        emailTV = findViewById(R.id.emailTV);
     }
 
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
 
-    private void showUser(String[] userData) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            uploadImage();
+        }
+    }
+
+    private void uploadImage() {
+        FirebaseUser fbUser = authProfile.getCurrentUser();
+        if (fbUser != null && imageUri != null) {
+            // Correctly initialized Firebase Storage reference
+            StorageReference fileRef = FirebaseStorage.getInstance().getReference("ProfileImages").child(fbUser.getUid() + ".jpg");
+            fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    imageUrl = uri.toString();
+                    Glide.with(this).load(imageUri).into(profilePic);
+                });
+            }).addOnFailureListener(e -> Toast.makeText(EditProfile.this, "Image Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void updateProfile(FirebaseUser fbUser) {
+        String username = usernameET.getText().toString().trim();
+        String dob = dobET.getText().toString().trim();
+        String gender = genderET.getText().toString().trim();
+        String height = heightET.getText().toString().trim();
+        String weight = weightET.getText().toString().trim();
+
+        if (username.isEmpty() || dob.isEmpty() || gender.isEmpty() || height.isEmpty() || weight.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        UserProfile user = new UserProfile(username, gender, dob, height, weight, imageUrl);
+        FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users")
+                .child(fbUser.getUid())
+                .setValue(user)
+                .addOnCompleteListener((Task<Void> task) -> {
+                    if (task.isSuccessful()) {
+
+                        Toast.makeText(EditProfile.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EditProfile.this, Profile.class));
+                        finish();
+                    } else {
+                        Toast.makeText(EditProfile.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+        private void showUser(String[] userData) {
         username = userData[0];
         dob = userData[1];
         gender = userData[2];
@@ -136,7 +379,7 @@ public class EditProfile extends AppCompatActivity {
         email = userData[6];
 
         if (imageUrl != null) {
-            Glide.with(EditProfile.this).load(imageUrl).circleCrop().into(profilepic);
+            Glide.with(EditProfile.this).load(imageUrl).circleCrop().into(profilePic);
         }
         emailTV.setText(email);
         usernameET.setText(username);
@@ -145,6 +388,4 @@ public class EditProfile extends AppCompatActivity {
         heightET.setText(height);
         weightET.setText(weight);
     }
-
-
 }

@@ -8,9 +8,8 @@ public class UserProfile {
     public String username, gender, dob,height,weight, imageUrl;
 
 
-    public UserProfile() {
-        // Default constructor required for calls to DataSnapshot.getValue(UserProfile.class)
-    }
+
+
     public UserProfile(String username, String gender, String dob, String height, String weight, String imageUrl){
         this.username = username;
         this.gender = gender;
@@ -18,6 +17,10 @@ public class UserProfile {
         this.height = height;
         this.weight = weight;
         this.imageUrl = imageUrl;
+    }
+
+    public UserProfile() {
+        // Default constructor required for calls to DataSnapshot.getValue(UserProfile.class)
     }
 
     public String getImageUrl() {
