@@ -129,7 +129,8 @@ import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -199,12 +200,28 @@ public class RegistryActivity extends AppCompatActivity {
             String txt_height = height.getText().toString().trim();
             String txt_weight = weight.getText().toString().trim();
             String txt_gender = genderSelected.getText().toString().trim();
+            Pattern EMAIL_PATTERN = 
+            Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
 
-            if (!txt_email.isEmpty() && !txt_password.isEmpty() && txt_password.length() >= 6) {
-                registerUser(txt_username, txt_email, txt_password, txt_gender, txt_dob, txt_height, txt_weight);
+            StringBuilder errorMessage = new StringBuilder();
+    
+
+            if (txt_username.isEmpty()) errorMessage.append("Username is required. ");
+            if (txt_email.isEmpty() || !isValidEmail(txt_email) errorMessage.append("Valid email is required. ");
+            if (txt_password.isEmpty() || txt_password.length() < 6) errorMessage.append("A stronger password with length greater than 6 is required. ");
+            if (txt_dob.isEmpty()) errorMessage.append("Date of Birth is required. ");
+            if (txt_height.isEmpty()) errorMessage.append("Height is required. ");
+            if (txt_weight.isEmpty()) errorMessage.append("Weight is required. ");
+            if (txt_gender.isEmpty()) errorMessage.append("Gender is required. ");
+    
+            // If there are any error messages, show them in a Toast; otherwise, proceed with user registration
+            if (errorMessage.length() > 0) {
+                Toast.makeText(YourActivity.this, errorMessage.toString(), Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(RegistryActivity.this, "Please check your inputs", Toast.LENGTH_SHORT).show();
+                registerUser(txt_username, txt_email, txt_password, txt_gender, txt_dob, txt_height, txt_weight);
             }
+            
+            
         });
     }
 
@@ -222,6 +239,15 @@ public class RegistryActivity extends AppCompatActivity {
             imageUri = data.getData();
             profileImage.setImageURI(imageUri);
         }
+    }
+
+    public boolean isValidEmail(String email) {
+        if (email.equals(null)){
+            return false;
+        }
+        Pattern EMAIL_PATTERN = 
+            Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
     private void registerUser(String username, String email, String password, String gender, String dob, String height, String weight) {
