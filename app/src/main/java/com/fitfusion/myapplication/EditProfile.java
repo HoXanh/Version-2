@@ -353,14 +353,14 @@ public class EditProfile extends AppCompatActivity {
             return;
         }
 
-        UserProfile user = new UserProfile(username, gender, dob, height, weight, imageUrl);
+        UserProfile user = new UserProfile(username, email, gender, dob, height, weight, imageUrl);
         FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users")
                 .child(fbUser.getUid())
                 .setValue(user)
                 .addOnCompleteListener((Task<Void> task) -> {
                     if (task.isSuccessful()) {
-
                         Toast.makeText(EditProfile.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                        updateWeightRecords(fbUser.getUid(), weight);
                         startActivity(new Intent(EditProfile.this, Profile.class));
                         finish();
                     } else {
@@ -369,7 +369,28 @@ public class EditProfile extends AppCompatActivity {
                 });
     }
 
-        private void showUser(String[] userData) {
+    private void updateWeightRecords(String userId, String newWeight) {
+        // Getting the current timestamp
+        long timestamp = System.currentTimeMillis();
+
+        // Adding the new weight record with timestamp
+        FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("UserRecords")
+                .child(userId)
+                .child("weight_records")
+                .child(String.valueOf(timestamp))
+                .setValue(newWeight)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(EditProfile.this, "Weight record updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(EditProfile.this, "Failed to update weight record", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+    private void showUser(String[] userData) {
         username = userData[0];
         dob = userData[1];
         gender = userData[2];

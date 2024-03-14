@@ -5,13 +5,14 @@ package com.fitfusion.myapplication.Model;
 
 public class UserProfile {
     //unit_settings: convert for US users
-    public String username, gender, dob,height,weight, imageUrl;
+    public String email, username, gender, dob,height,weight, imageUrl;
 
 
 
 
-    public UserProfile(String username, String gender, String dob, String height, String weight, String imageUrl){
+    public UserProfile(String username, String email, String gender, String dob, String height, String weight, String imageUrl){
         this.username = username;
+        this.email = email;
         this.gender = gender;
         this.dob = dob;
         this.height = height;

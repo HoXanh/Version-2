@@ -211,7 +211,7 @@ public class RegistryActivity extends AppCompatActivity {
     
 
             if (txt_username.isEmpty()) errorMessage.append("Username is required. ");
-            if (txt_email.isEmpty() || !isValidEmail(txt_email) errorMessage.append("Valid email is required. ");
+            if (txt_email.isEmpty() || !isValidEmail(txt_email)) errorMessage.append("Valid email is required. ");
             if (txt_password.isEmpty() || txt_password.length() < 6) errorMessage.append("A stronger password with length greater than 6 is required. ");
             if (txt_dob.isEmpty()) {
                 errorMessage.append("Date of Birth is required. ");
@@ -227,7 +227,7 @@ public class RegistryActivity extends AppCompatActivity {
     
             // If there are any error messages, show them in a Toast; otherwise, proceed with user registration
             if (errorMessage.length() > 0) {
-                Toast.makeText(YourActivity.this, errorMessage.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistryActivity.this, errorMessage.toString(), Toast.LENGTH_LONG).show();
             } else {
                 registerUser(txt_username, txt_email, txt_password, txt_gender, txt_dob, txt_height, txt_weight);
             }
