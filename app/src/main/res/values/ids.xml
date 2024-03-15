@@ -2,4 +2,5 @@
 <resources>
     <item name="login" type="id" />
     <item name="loginBtn" type="id" />
+    <item name="createBlogButton" type="id" />
 </resources>
