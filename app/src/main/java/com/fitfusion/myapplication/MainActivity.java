@@ -67,6 +67,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.FirebaseUrl = "https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app";
         metricsContainer = findViewById(R.id.metricsContainer);
+//        long timestamp = System.currentTimeMillis();
+//        int planId  = getIntent().getIntExtra("Number", 0);
+//        if (planId == 1){
+//            FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
+//                    .getReference("UserRecords")
+//                    .child(userId)
+//                    .child("weight_records")
+//                    .child(String.valueOf(timestamp))
+//                    .setValue()
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(EditProfile.this, "Weight record updated", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(EditProfile.this, "Failed to update weight record", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        }
 
         fetchAllMetricsData();
         fab = findViewById(R.id.fab);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,6 +35,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         signUpButton = findViewById(R.id.signUpBtn);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -71,7 +74,9 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Toast.makeText(Login.this, "Login User Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Login.this, MainActivity.class));
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        intent.putExtra("Number", "1");
+                        startActivity(intent);
                         finish();
                     }
                 })
