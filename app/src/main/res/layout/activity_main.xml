@@ -7,22 +7,86 @@ android:layout_height="match_parent"
 android:background="@color/white"
 tools:context=".MainActivity">
 
-
-
-    <androidx.cardview.widget.CardView
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_marginBottom="90dp"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <LinearLayout
+        android:id="@+id/metricsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="40dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+        android:orientation="vertical"
+        android:layout_above="@id/bottomAppBar"
+        android:layout_marginTop="16dp">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/weightChart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="10dp"/> <!-- Optional margin inside the CardView -->
-</androidx.cardview.widget.CardView>
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="380dp"-->
+<!--        android:layout_marginHorizontal="30dp"-->
+<!--        android:layout_marginVertical="40dp"-->
+<!--        app:cardCornerRadius="16dp"-->
+<!--        app:cardElevation="4dp">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <com.github.mikephil.charting.charts.LineChart-->
+<!--                android:id="@+id/weightChart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="300dp"-->
+<!--                android:layout_margin="15dp"/>-->
+
+<!--            &lt;!&ndash; EditText for inputting new weight &ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:paddingHorizontal="5dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+
+
+<!--                <EditText-->
+<!--                    android:id="@+id/etNewWeight"-->
+<!--                    android:layout_width="200dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Enter new weight"-->
+<!--                    android:layout_above="@id/btnChangeWeight"-->
+<!--                    android:layout_marginStart="15dp"-->
+<!--                    android:layout_marginEnd="15dp"-->
+<!--                    android:layout_marginBottom="10dp"-->
+<!--                    android:inputType="numberDecimal"/>-->
+
+<!--                &lt;!&ndash; Button for submitting new weight &ndash;&gt;-->
+<!--                <Button-->
+<!--                    android:id="@+id/btnChangeWeight"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:text="Submit" />-->
+
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
+
+<!--&lt;!&ndash;        </RelativeLayout>&ndash;&gt;-->
+<!--    </androidx.cardview.widget.CardView>-->
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+
+
+
+
 
 
     <!--    android:layout_marginHorizontal="40dp"-->
@@ -48,13 +112,15 @@ tools:context=".MainActivity">
             app:menu="@menu/bottom_menu" />
 
 
+
+
     </com.google.android.material.bottomappbar.BottomAppBar>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/home"
+                android:src="@drawable/add"
                 app:layout_anchor="@id/bottomAppBar"
                 app:tint="@color/white"
                 app:fabSize="normal"

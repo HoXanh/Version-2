@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.UserProfile;
 import com.fitfusion.myapplication.Model.Users;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Profile extends AppCompatActivity {
     private TextView usernameTV,emailTV, dobTV,genderTV, heightTV, weightTV;
     private ImageView profileImageView;
+    private FloatingActionButton homeBtn;
     private ImageButton moveToEditProfileBtn, logOutBtn;
     private String username, email, dob, gender, height, weight, imageUrl;
     private FirebaseAuth authProfile;
@@ -36,6 +38,13 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        homeBtn = findViewById(R.id.fab);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Profile.this, MainActivity.class));
+            }
+        });
 
         profileImageView = findViewById(R.id.profilepic);
         usernameTV = findViewById(R.id.usernameTV);

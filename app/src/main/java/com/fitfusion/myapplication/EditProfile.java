@@ -387,6 +387,9 @@ public class EditProfile extends AppCompatActivity {
                         Toast.makeText(EditProfile.this, "Failed to update weight record", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+
     }
 
 

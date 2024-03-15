@@ -358,6 +358,17 @@ public class RegistryActivity extends AppCompatActivity {
                                 finish();
                             }
                         });
+
+//                        long timestamp = System.currentTimeMillis();
+//
+//                        // Adding the new weight record with timestamp
+//                        FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
+//                                .getReference("UserRecords")
+//                                .child(fbUser.getUid())
+//                                .child("weight_records")
+//                                .child(String.valueOf(timestamp))
+//                                .setValue(weight);
+
                     }
                 } else {
                     Toast.makeText(RegistryActivity.this, "Registering Failed!!!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
