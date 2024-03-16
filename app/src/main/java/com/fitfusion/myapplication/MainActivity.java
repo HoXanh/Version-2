@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +54,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth authProfile;
+
+    private Map<String, Pair<LineChart, List<Entry>>> metricCharts = new HashMap<>();
+
     private LinearLayout metricsContainer;
     private TextView desc;
     private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -67,23 +71,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.FirebaseUrl = "https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app";
         metricsContainer = findViewById(R.id.metricsContainer);
-//        long timestamp = System.currentTimeMillis();
-//        int planId  = getIntent().getIntExtra("Number", 0);
-//        if (planId == 1){
-//            FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
-//                    .getReference("UserRecords")
-//                    .child(userId)
-//                    .child("weight_records")
-//                    .child(String.valueOf(timestamp))
-//                    .setValue()
-//                    .addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(EditProfile.this, "Weight record updated", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(EditProfile.this, "Failed to update weight record", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//        }
 
         fetchAllMetricsData();
         fab = findViewById(R.id.fab);
@@ -162,30 +149,72 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void addMetricCard(String metricName, List<Entry> metricEntries) {
-        View cardView = LayoutInflater.from(this).inflate(R.layout.metric_card_layout, metricsContainer, false);
+//    private void addMetricCard(String metricName, List<Entry> metricEntries) {
+//        View cardView = LayoutInflater.from(this).inflate(R.layout.metric_card_layout, metricsContainer, false);
+//
+//        LineChart chart = cardView.findViewById(R.id.metricChart);
+//        EditText etMetricValue = cardView.findViewById(R.id.etMetricValue);
+//        TextView desc = cardView.findViewById(R.id.description);
+//        View btnSubmitMetric = cardView.findViewById(R.id.btnSubmitMetric);
+//
+//        setupChart(chart, metricName, metricEntries); // Setup chart with a separate method
+//
+//        desc.setText(metricName + " records");
+//        // Setup the submit button click listener
+//        btnSubmitMetric.setOnClickListener(v -> {
+//            String metricValueStr = etMetricValue.getText().toString();
+//            if (!metricValueStr.isEmpty()) {
+//                float metricValue = Float.parseFloat(metricValueStr);
+//                // Here you would add the metric value to your database and refresh the chart
+//                // For demonstration, assuming a method addDataToMetric which updates Firebase and refreshes the chart
+//                addDataToMetric(metricName, metricValue, chart, metricEntries);
+//            }
+//        });
+//
+//        metricsContainer.addView(cardView);
+//    }
 
-        LineChart chart = cardView.findViewById(R.id.metricChart);
-        EditText etMetricValue = cardView.findViewById(R.id.etMetricValue);
-        TextView desc = cardView.findViewById(R.id.description);
-        View btnSubmitMetric = cardView.findViewById(R.id.btnSubmitMetric);
+    private void addMetricCard(String metricName, List<Entry> newEntries) {
+        Pair<LineChart, List<Entry>> existing = metricCharts.get(metricName);
 
-        setupChart(chart, metricName, metricEntries); // Setup chart with a separate method
+        if (existing != null) {
+            // Metric already exists, update its data
+            List<Entry> metricEntries = existing.second;
+            metricEntries.clear();
+            metricEntries.addAll(newEntries); // Update with new data
 
-        desc.setText(metricName + " records");
+            LineChart chart = existing.first;
+            setupChart(chart, metricName, metricEntries); // Refresh chart
+        } else {
+            // Metric doesn't exist, create new
+            View cardView = LayoutInflater.from(this).inflate(R.layout.metric_card_layout, metricsContainer, false);
+
+            LineChart chart = cardView.findViewById(R.id.metricChart);
+            setupChart(chart, metricName, newEntries); // Initial setup
+            EditText etMetricValue = cardView.findViewById(R.id.etMetricValue);
+            TextView desc = cardView.findViewById(R.id.description);
+            View btnSubmitMetric = cardView.findViewById(R.id.btnSubmitMetric);
+            desc.setText(metricName + " records");
         // Setup the submit button click listener
-        btnSubmitMetric.setOnClickListener(v -> {
-            String metricValueStr = etMetricValue.getText().toString();
-            if (!metricValueStr.isEmpty()) {
-                float metricValue = Float.parseFloat(metricValueStr);
-                // Here you would add the metric value to your database and refresh the chart
-                // For demonstration, assuming a method addDataToMetric which updates Firebase and refreshes the chart
-                addDataToMetric(metricName, metricValue, chart, metricEntries);
-            }
-        });
 
-        metricsContainer.addView(cardView);
+            btnSubmitMetric.setOnClickListener(v -> {
+                String metricValueStr = etMetricValue.getText().toString();
+                if (!metricValueStr.isEmpty()) {
+                    float metricValue = Float.parseFloat(metricValueStr);
+                    // Here you would add the metric value to your database and refresh the chart
+                    // For demonstration, assuming a method addDataToMetric which updates Firebase and refreshes the chart
+                    addDataToMetric(metricName, metricValue, chart, newEntries);
+                }
+            });
+
+            // Other UI setup code here...
+
+            // Store the chart and entries for future updates
+            metricCharts.put(metricName, new Pair<>(chart, newEntries));
+            metricsContainer.addView(cardView);
+        }
     }
+
 
     private void setupChart(LineChart chart, String metricName, List<Entry> metricEntries) {
         Description description = new Description();

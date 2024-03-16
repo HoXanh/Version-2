@@ -88,7 +88,7 @@
                     android:layout_marginEnd="120dp"
                     android:background="@color/white"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/img_1" />
+                    android:src="@drawable/editprof" />
 
 
             </RelativeLayout>
@@ -123,7 +123,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="41dp"
                     android:layout_height="54dp"
-                    android:src="@drawable/gender"
+                    android:src="@drawable/gender1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -208,7 +208,7 @@
                     android:id="@+id/height"
                     android:layout_width="41dp"
                     android:layout_height="54dp"
-                    android:src="@drawable/height"
+                    android:src="@drawable/height1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>

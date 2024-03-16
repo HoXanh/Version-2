@@ -361,6 +361,8 @@ public class RegistryActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 //    private void hello(String username,String email, String password, String gender, String dob, String height, String weight) {
 //        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistryActivity.this,new  OnCompleteListener<AuthResult>() {
 //            @Override
