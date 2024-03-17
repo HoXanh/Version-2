@@ -1,7 +1,9 @@
 package com.fitfusion.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -46,6 +48,16 @@ public class BlogPostAdapter extends BaseAdapter {
 
         TextView title = convertView.findViewById(R.id.blogTextViewTitle);
         title.setText(post.getTitle());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = post.getPostId();
+                Intent intent = new Intent(context, ReadBlog.class);
+                intent.putExtra("NUMBER_KEY", id);
+                context.startActivity(intent);
+            }
+        });
 
         return convertView;
     }
