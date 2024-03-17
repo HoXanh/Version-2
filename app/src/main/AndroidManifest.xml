@@ -12,6 +12,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".ReadBlog"
+            android:exported="false" />
+        <activity
             android:name=".AddBlog"
             android:exported="false" />
         <activity

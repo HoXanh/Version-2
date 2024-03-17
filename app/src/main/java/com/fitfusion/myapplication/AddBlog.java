@@ -9,12 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.BlogPost;
@@ -58,9 +54,7 @@ public class AddBlog extends AppCompatActivity {
 
         postUpLoadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                postBlog();
-            }
+            public void onClick(View view) {postBlog();}
         });
     }
 
@@ -75,13 +69,16 @@ public class AddBlog extends AppCompatActivity {
 
             if (!title.isEmpty() && !description.isEmpty() && !imageUrl.isEmpty()) {
                 // Create a reference to the Firebase Realtime Database
-                DatabaseReference databaseRef = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Blogs");
+                DatabaseReference databaseRef = FirebaseDatabase
+                        .getInstance(Blog.DATABASE_URL)
+                        .getReference(Blog.BLOGS_TABLE_NAME);
 
                 // Generate a unique key for the new blog post
                 String postId = databaseRef.push().getKey();
 
                 // Create a Blog object with the data
-                BlogPost blog = new BlogPost(postId, title, imageUrl, description);
+                BlogPost blog = new BlogPost(postId, title, imageUrl, description,
+                        System.currentTimeMillis());
 
                 // Push the blog object to the database under a common node
                 if (postId != null) {
@@ -94,6 +91,8 @@ public class AddBlog extends AppCompatActivity {
 
                                 // Notify the user of successful upload
                                 Toast.makeText(AddBlog.this, "Blog Posted Successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(AddBlog.this,Blog.class));
+                                finish();
                             })
                             .addOnFailureListener(e -> {
                                 // Notify the user of any errors
@@ -140,7 +139,6 @@ public class AddBlog extends AppCompatActivity {
             }).addOnFailureListener(e -> Toast.makeText(AddBlog.this, "Image Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
-
 
 
 }
