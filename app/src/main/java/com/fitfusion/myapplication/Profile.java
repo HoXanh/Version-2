@@ -28,11 +28,22 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
     private TextView usernameTV,emailTV, dobTV,genderTV, heightTV, weightTV;
+
+    private DatabaseReference refProfile;
     private ImageView profileImageView;
     private FloatingActionButton homeBtn;
     private ImageButton moveToEditProfileBtn, logOutBtn;
     private String username, email, dob, gender, height, weight, imageUrl;
     private FirebaseAuth authProfile;
+
+    public void setFirebaseAuth(FirebaseAuth authProfile) {
+        this.authProfile = authProfile;
+    }
+
+    public void setDatabaseReference(DatabaseReference refProfile) {
+        this.refProfile = refProfile;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +130,7 @@ public class Profile extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showUserProfile(FirebaseUser fbUser) {
+    public void showUserProfile(FirebaseUser fbUser) {
         String userID = fbUser.getUid();
 
         DatabaseReference refProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");

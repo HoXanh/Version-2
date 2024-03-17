@@ -377,7 +377,7 @@ public class EditProfile extends AppCompatActivity {
         FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
                 .getReference("UserRecords")
                 .child(userId)
-                .child("weight_records")
+                .child("weight")
                 .child(String.valueOf(timestamp))
                 .setValue(newWeight)
                 .addOnCompleteListener(task -> {

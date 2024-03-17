@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -166,6 +167,7 @@ public class RegistryActivity extends AppCompatActivity {
     private RadioGroup genderChoice;
     private RadioButton genderSelected;
     private FirebaseAuth auth;
+    String weightUser;
     private ImageView profileImage;
     private Uri imageUri;
 
@@ -204,6 +206,7 @@ public class RegistryActivity extends AppCompatActivity {
             String txt_height = height.getText().toString().trim();
             String txt_weight = weight.getText().toString().trim();
             String txt_gender = genderSelected.getText().toString().trim();
+            weightUser = txt_weight;
             Pattern EMAIL_PATTERN = 
             Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
 
@@ -328,6 +331,8 @@ public class RegistryActivity extends AppCompatActivity {
         DatabaseReference refProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");
         refProfile.child(fbUser.getUid()).setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                updateWeightRecords(fbUser.getUid(), weightUser);
+                Log.d("RegistryActivity", weightUser);
                 Toast.makeText(RegistryActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(RegistryActivity.this, Login.class));
                 finish();
@@ -336,44 +341,59 @@ public class RegistryActivity extends AppCompatActivity {
             }
         });
     }
-    private void hello(String username,String email, String password, String gender, String dob, String height, String weight) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistryActivity.this,new  OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+
+    private void updateWeightRecords(String userId, String newWeight) {
+        // Getting the current timestamp
+        long timestamp = System.currentTimeMillis();
+
+        // Adding the new weight record with timestamp
+        FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("UserRecords")
+                .child(userId)
+                .child("weight")
+                .child(String.valueOf(timestamp))
+                .setValue(newWeight)
+                .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser fbUser = auth.getCurrentUser();
-                        uploadImage(fbUser, new Users(username, email, gender, dob, height, weight));
-
-
-                        Users writeUserDetails = new Users(username,email, gender, dob, height, weight);
-                        //https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app - Putting full URL for Database refProfile to solve the unmatch region bugs
-                        DatabaseReference refProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");
-                        refProfile.child(fbUser.getUid()).setValue(writeUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(RegistryActivity.this, "Registering User Successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(RegistryActivity.this, Login.class));
-                                finish();
-                            }
-                        });
-
-//                        long timestamp = System.currentTimeMillis();
-//
-//                        // Adding the new weight record with timestamp
-//                        FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app")
-//                                .getReference("UserRecords")
-//                                .child(fbUser.getUid())
-//                                .child("weight_records")
-//                                .child(String.valueOf(timestamp))
-//                                .setValue(weight);
-
+                        Toast.makeText(RegistryActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegistryActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(RegistryActivity.this, "Registering Failed!!!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                });
     }
+
+
+//    private void hello(String username,String email, String password, String gender, String dob, String height, String weight) {
+//        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistryActivity.this,new  OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if (task.isSuccessful()){
+//                    if (task.isSuccessful()) {
+//                        FirebaseUser fbUser = auth.getCurrentUser();
+//                        uploadImage(fbUser, new Users(username, email, gender, dob, height, weight));
+//
+//
+//                        Users writeUserDetails = new Users(username,email, gender, dob, height, weight);
+//                        //https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app - Putting full URL for Database refProfile to solve the unmatch region bugs
+//                        DatabaseReference refProfile = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app").getReference("Registered Users");
+//                        refProfile.child(fbUser.getUid()).setValue(writeUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+//
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//
+//                                Toast.makeText(RegistryActivity.this, "Registering User Successful", Toast.LENGTH_SHORT).show();
+//                                startActivity(new Intent(RegistryActivity.this, Login.class));
+//                                finish();
+//                            }
+//                        });
+//
+//
+//
+//                    }
+//                } else {
+//                    Toast.makeText(RegistryActivity.this, "Registering Failed!!!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 }

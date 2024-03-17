@@ -3,14 +3,11 @@ package com.fitfusion.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,13 +15,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
 
 
     private Button signUpButton;
 
-    private EditText email;
+    private  EditText email;
     private EditText password;
     private Button loginBtn;
 
@@ -34,12 +32,15 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         signUpButton = findViewById(R.id.signUpBtn);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginBtn = findViewById(R.id.log_in_button);
 
         auth = FirebaseAuth.getInstance();
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +66,24 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void loginUser(String email, String password) {
+    public boolean validateInput(String email, String password) {
+        return !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password);
+    }
+
+    public static boolean isPasswordValid(String password) {
+        return password != null && password.length() >= 6;
+    }
+
+
+    public void loginUser(String email, String password) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Toast.makeText(Login.this, "Login User Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Login.this, MainActivity.class));
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        intent.putExtra("Number", "1");
+                        startActivity(intent);
                         finish();
                     }
                 })

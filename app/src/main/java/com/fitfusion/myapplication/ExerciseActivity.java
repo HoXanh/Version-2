@@ -20,6 +20,7 @@ import com.fitfusion.myapplication.Model.FitnessPlan;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class ExerciseActivity extends AppCompatActivity {
+    FloatingActionButton homeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,13 @@ public class ExerciseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise);
         int planId  = getIntent().getIntExtra("NUMBER_KEY", 1);
         Log.d("SecondActivity", "Received Number: " + planId);
+        homeBtn = findViewById(R.id.fab);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ExerciseActivity.this, MainActivity.class));
+            }
+        });
 
 // Assuming 'inputId' is the ID you are looking for
 
