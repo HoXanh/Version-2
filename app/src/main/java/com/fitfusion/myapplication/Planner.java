@@ -35,8 +35,8 @@ public class Planner extends AppCompatActivity {
 
     FloatingActionButton homeBtn;
     SearchView searchView;
-    private List<FitnessPlan> allFitnessPlans = new ArrayList<>();
-    private List<FitnessPlan> displayedFitnessPlans = new ArrayList<>();
+    public List<FitnessPlan> allFitnessPlans = new ArrayList<>();
+    public List<FitnessPlan> displayedFitnessPlans = new ArrayList<>();
 
     FitnessPlanAdapter adapter;
     ListView listView;
@@ -129,25 +129,33 @@ public class Planner extends AppCompatActivity {
 
 
 
-    public void filter(String text) {
 
-        List<FitnessPlan> filteredList = new ArrayList<>();
-        for (FitnessPlan plan : allFitnessPlans) {
-            String planLvl = plan.getLevel().toLowerCase();
-            String planTitle = plan.getTitle().toLowerCase();
-            if (planLvl.contains(text.toLowerCase().trim())
-                    || planTitle.contains(text.toLowerCase().trim())
-                        || (planTitle + " " + planLvl).equals(text.toLowerCase().trim())
-                            || (planLvl + " " + planTitle).equals(text.toLowerCase().trim())) {
-                filteredList.add(plan);
-            }
-        }
-        displayedFitnessPlans.clear();
-        displayedFitnessPlans.addAll(filteredList);
-        adapter.updateData(displayedFitnessPlans);
-//        String size =  String.valueOf(allFitnessPlans.size());
-//        Log.d("Planner", size);
-    }
+
+//    public void filter(String text) {
+//
+//        List<FitnessPlan> filteredList = new ArrayList<>();
+//        for (FitnessPlan plan : allFitnessPlans) {
+//            String planLvl = plan.getLevel().toLowerCase();
+//            String planTitle = plan.getTitle().toLowerCase();
+//            if (planLvl.contains(text.toLowerCase().trim())
+//                    || planTitle.contains(text.toLowerCase().trim())
+//                        || (planTitle + " " + planLvl).equals(text.toLowerCase().trim())
+//                            || (planLvl + " " + planTitle).equals(text.toLowerCase().trim())) {
+//                filteredList.add(plan);
+//            }
+//        }
+//        displayedFitnessPlans.clear();
+//        displayedFitnessPlans.addAll(filteredList);
+//        adapter.updateData(displayedFitnessPlans);
+////        String size =  String.valueOf(allFitnessPlans.size());
+////        Log.d("Planner", size);
+//    }
+public void filter(String text) {
+    List<FitnessPlan> filteredList = FitnessPlanFilter.filter(allFitnessPlans, text);
+    displayedFitnessPlans.clear();
+    displayedFitnessPlans.addAll(filteredList);
+    adapter.updateData(displayedFitnessPlans);
+}
 
 
 

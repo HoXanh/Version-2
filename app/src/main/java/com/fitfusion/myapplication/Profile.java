@@ -27,7 +27,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
-    private TextView usernameTV,emailTV, dobTV,genderTV, heightTV, weightTV;
+    public TextView usernameTV;
+    private TextView emailTV;
+    private TextView dobTV;
+    private TextView genderTV;
+    private TextView heightTV;
+    private TextView weightTV;
 
     private DatabaseReference refProfile;
     private ImageView profileImageView;
@@ -162,6 +167,43 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(Profile.this, "Something went wrong!",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showUserProfile2(FirebaseUser fbUser) {
+        String userID = fbUser.getUid();
+
+        // Use the injected DatabaseReference
+        refProfile.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserProfile readUserDetails = snapshot.getValue(UserProfile.class);
+                if (readUserDetails != null) {
+                    // Update UI components with user details...
+                    username = readUserDetails.getUsername();
+                    email = fbUser.getEmail();
+                    dob = readUserDetails.getDob();
+                    gender = readUserDetails.getGender();
+                    height = readUserDetails.getHeight();
+                    weight = readUserDetails.getWeight();
+                    imageUrl = readUserDetails.getImageUrl();
+
+//                    if (imageUrl != null) {
+//                        Glide.with(Profile.this).load(imageUrl).circleCrop().into(profileImageView);
+//                    }
+                    usernameTV.setText(username);
+                    emailTV.setText(email);
+                    dobTV.setText(dob);
+                    genderTV.setText(gender);
+                    heightTV.setText(height + " cm");
+                    weightTV.setText(weight + " kg");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle potential errors...
             }
         });
     }
