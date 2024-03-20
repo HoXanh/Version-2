@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/backgroundcrop"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -30,10 +34,39 @@
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:id="@+id/timestamp"
+                    android:layout_width="200dp"
+                    android:textAllCaps="true"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif-monospace"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+
+
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/blogpic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
+                android:adjustViewBounds="true" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/viewBlog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn"
+            android:text="See Blog"/>
 
     </LinearLayout>
 
 </LinearLayout>
+

@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Text;
+
 public class ExerciseActivity extends AppCompatActivity {
     FloatingActionButton homeBtn;
 
@@ -72,13 +74,17 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         FitnessPlan plan = snapshot.getValue(FitnessPlan.class);
+                        TextView description = findViewById(R.id.workoutDescription);
+                        description.setText(plan.getDescription());
                         // Assuming FitnessPlan class has a structure to hold days and exercises
                         for (Day day : plan.getDays()) {
                             // Inflate the day layout
                             View dayView = inflater.inflate(R.layout.day_layout, mainLayout, false);
                             TextView dayTitle = dayView.findViewById(R.id.textViewDayTitle);
+
                             dayTitle.setText(day.getDay());
                             mainLayout.addView(dayView); // Add day view to the main layout
 
