@@ -13,6 +13,8 @@ public class FitnessPlan {
 
     private List<Day> days;
 
+    private List<String> buttons;
+
     public FitnessPlan(){}
 
 
@@ -25,6 +27,21 @@ public class FitnessPlan {
         this.image = image;
         this.description = description;
     }
+
+    public FitnessPlan(List<Day> days, String title, String level, String duration, String image, String description, List<String> buttons) {
+        this.days = days;
+        this.id = id;
+        this.title = title;
+        this.level = level;
+        this.buttons = buttons;
+        this.duration = duration;
+        this.image = image;
+        this.description = description;
+    }
+
+    public List<String> getButtons() { return this.buttons; }
+
+    public void setButtons(List<String> buttons) { this.buttons = buttons; }
 
     // Getters and Setters
     public List<Day> getDays(){

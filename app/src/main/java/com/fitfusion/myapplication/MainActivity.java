@@ -292,6 +292,12 @@ public class MainActivity extends AppCompatActivity {
     private void addDataToMetric(String metricName, float metricValue, LineChart chart, List<Entry> metricEntries) {
 
         long timestamp = System.currentTimeMillis();
+        if (metricName.equals("weight")){
+            DatabaseReference ref = FirebaseDatabase.getInstance(FirebaseUrl).getReference("Registered Users")
+                    .child(userId).child(metricName);
+
+            ref.setValue(String.valueOf(metricValue));
+        }
         metricEntries.add(new Entry(timestamp, metricValue));
         // Logic to add data to Firebase under the specific metric for the current user
         DatabaseReference ref = FirebaseDatabase.getInstance(FirebaseUrl).getReference("UserRecords")

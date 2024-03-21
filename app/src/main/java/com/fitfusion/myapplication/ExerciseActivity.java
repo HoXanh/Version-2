@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.fitfusion.myapplication.Model.BlogPost;
 import com.fitfusion.myapplication.Model.Day;
 import com.fitfusion.myapplication.Model.Exercise;
 import com.fitfusion.myapplication.Model.FitnessPlan;
@@ -30,6 +32,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ExerciseActivity extends AppCompatActivity {
     FloatingActionButton homeBtn;
@@ -78,6 +83,30 @@ public class ExerciseActivity extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         FitnessPlan plan = snapshot.getValue(FitnessPlan.class);
                         TextView description = findViewById(R.id.workoutDescription);
+
+
+                        if (planId % 3 == 0) {
+
+                            for (String btn : plan.getButtons()){
+                                LinearLayout containerLayout = findViewById(R.id.containerLayout);
+                                LayoutInflater inflater = LayoutInflater.from(containerLayout.getContext());
+                                View buttonView = inflater.inflate(R.layout.button, containerLayout, false);
+                                Button btns = buttonView.findViewById(R.id.myButton);
+                                btns.setText(btn.substring(20));
+                                Log.d("ExerciseActivity", btn.substring(20));
+                                containerLayout.addView(btns);
+
+                                btns.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String id = btn.substring(0,20);
+                                        Intent intent = new Intent(ExerciseActivity.this, ReadBlog.class);
+                                        intent.putExtra("NUMBER_KEY", id);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        }
                         description.setText(plan.getDescription());
                         // Assuming FitnessPlan class has a structure to hold days and exercises
                         for (Day day : plan.getDays()) {

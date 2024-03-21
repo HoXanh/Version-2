@@ -42,6 +42,10 @@ public class ReadBlog extends AppCompatActivity {
         String postID = getIntent().getStringExtra("NUMBER_KEY");
         Log.d("ReadBlog", "Received blog ID: " + postID);
 
+        if (postID.charAt(0) == '0'){
+
+        }
+
         DatabaseReference blogRoot = FirebaseDatabase.getInstance(Blog.DATABASE_URL)
                 .getReference()
                 .child("Blogs")
