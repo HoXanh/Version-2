@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.fitfusion.myapplication.Model.BlogPost;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +33,8 @@ public class Blog extends AppCompatActivity {
     public static final String BLOGS_TABLE_NAME = "Blogs";
 
     private Button newBlogBtn;
+
+    FloatingActionButton homeBtn;
     private List<BlogPost> posts;
     private BlogPostAdapter adapter;
 
@@ -41,6 +44,14 @@ public class Blog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog);
+
+        homeBtn = findViewById(R.id.fab);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Blog.this, MainActivity.class));
+            }
+        });
 
         newBlogBtn = findViewById(R.id.createBlogButton);
         newBlogBtn.setOnClickListener(new View.OnClickListener() {
