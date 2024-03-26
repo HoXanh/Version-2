@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.BlogPost;
+import com.fitfusion.myapplication.Model.FitnessPlan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

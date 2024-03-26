@@ -14,7 +14,7 @@ public class ToastMatcher extends TypeSafeMatcher<Root> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("is toast");
+        description.appendText("Email or Password is Empty!!!");
     }
 
     @Override
@@ -31,11 +31,7 @@ public class ToastMatcher extends TypeSafeMatcher<Root> {
         }
         return false;
     }
-
-    /**
-     * This is a shortcut method for creating an instance of the ToastMatcher.
-     */
-    public static Matcher<Root> isToast() {
-        return new ToastMatcher();
-    }
+//    public static Matcher<Root> isToast() {
+//        return new ToastMatcher();
+//    }
 }

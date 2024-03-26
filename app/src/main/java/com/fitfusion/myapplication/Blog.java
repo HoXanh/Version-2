@@ -2,6 +2,7 @@ package com.fitfusion.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fitfusion.myapplication.Model.BlogPost;
+import com.fitfusion.myapplication.Model.FitnessPlan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -35,8 +37,12 @@ public class Blog extends AppCompatActivity {
     private Button newBlogBtn;
 
     FloatingActionButton homeBtn;
+
+    public List<BlogPost> allPost = new ArrayList<>();
+    public List<BlogPost> displayedPost = new ArrayList<>();
     private List<BlogPost> posts;
     private BlogPostAdapter adapter;
+    SearchView searchView;
 
     TextView text;
 
@@ -44,6 +50,7 @@ public class Blog extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog);
+        searchView = findViewById(R.id.searchViewBlog);
 
         homeBtn = findViewById(R.id.fab);
         homeBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +66,19 @@ public class Blog extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(Blog.this, AddBlog.class));
                 finish();
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
             }
         });
 
@@ -89,8 +109,8 @@ public class Blog extends AppCompatActivity {
             return false;
         });
 
-        posts = new ArrayList<>();
-        adapter = new BlogPostAdapter(this, posts);
+//        posts = new ArrayList<>();
+        adapter = new BlogPostAdapter(this, displayedPost);
         ListView listView = findViewById(R.id.blogListView);
         listView.setAdapter(adapter);
 
@@ -101,20 +121,47 @@ public class Blog extends AppCompatActivity {
 
         ref.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                posts.clear();
-                for (DataSnapshot s : snapshot.getChildren()) {
-                    BlogPost post = s.getValue(BlogPost.class);
-                    if (post != null) {
-                        posts.add(post);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                posts.clear();
+//                for (DataSnapshot s : snapshot.getChildren()) {
+//                    BlogPost post = s.getValue(BlogPost.class);
+//                    if (post != null) {
+//                        posts.add(post);
+//                    }
+//                }
+//                Collections.reverse(posts);
+//                adapter.notifyDataSetChanged();
+                allPost.clear();
+                displayedPost.clear();
+//                List<FitnessPlan> fitnessPlans = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    BlogPost post = snapshot.getValue(BlogPost.class);
+                    if (post != null){
+                        allPost.add(post);
+                        displayedPost.add(post);
                     }
                 }
-                Collections.reverse(posts);
+                Collections.reverse(displayedPost);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+
+
+        public void filter(String text) {
+
+        List<BlogPost> filteredList = new ArrayList<>();
+        for (BlogPost post : allPost) {
+            String planTitle = post.getTitle().toLowerCase();
+            if (planTitle.contains(text.toLowerCase().trim())) {
+                filteredList.add(post);
+            }
+        }
+        displayedPost.clear();
+        displayedPost.addAll(filteredList);
+        adapter.notifyDataSetChanged();
     }
 }
