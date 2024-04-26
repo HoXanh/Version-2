@@ -29,32 +29,14 @@
         android:id="@+id/password"
         android:layout_marginTop="180dp"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Gender"
+        android:id="@+id/genderET"
+        android:layout_marginTop="280dp"
+        android:layout_marginRight="200dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Gender"
-        android:textSize="20sp"
-        android:paddingLeft="8dp"
-        android:layout_marginTop="260dp"/>
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/genderTxt"
-        android:id="@+id/gender"
-        android:layout_marginTop="300dp">
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Female"
-            android:id="@+id/gender_female"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Male"
-            android:id="@+id/gender_male"/>
-    </RadioGroup>
 
     <ImageView
         android:id="@+id/profile_image"

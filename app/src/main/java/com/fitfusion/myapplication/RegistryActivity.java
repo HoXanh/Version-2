@@ -162,10 +162,9 @@ import com.google.firebase.storage.UploadTask;
 public class RegistryActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private EditText username, email, password, dob, height, weight;
+    private EditText username, email, password, dob, height, weight,gender;
     private Button register, selectImageButton;
-    private RadioGroup genderChoice;
-    private RadioButton genderSelected;
+
     private FirebaseAuth auth;
     String weightUser;
     private ImageView profileImage;
@@ -184,28 +183,24 @@ public class RegistryActivity extends AppCompatActivity {
         height = findViewById(R.id.height);
         weight = findViewById(R.id.weight);
         register = findViewById(R.id.register);
-        genderChoice = findViewById(R.id.gender);
+        gender = findViewById(R.id.genderET);
         profileImage = findViewById(R.id.profile_image);
         selectImageButton = findViewById(R.id.select_image_btn);
 
         auth = FirebaseAuth.getInstance();
 
         // Clear radio group selection
-        genderChoice.clearCheck();
 
         selectImageButton.setOnClickListener(v -> openFileChooser());
 
         register.setOnClickListener(v -> {
-            int genderSelectedID = genderChoice.getCheckedRadioButtonId();
-            genderSelected = findViewById(genderSelectedID);
-
             String txt_username = username.getText().toString().trim();
             String txt_email = email.getText().toString().trim();
             String txt_password = password.getText().toString().trim();
             String txt_dob = dob.getText().toString().trim();
             String txt_height = height.getText().toString().trim();
             String txt_weight = weight.getText().toString().trim();
-            String txt_gender = genderSelected.getText().toString().trim();
+            String txt_gender = gender.getText().toString().trim();
             weightUser = txt_weight;
             Pattern EMAIL_PATTERN = 
             Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
