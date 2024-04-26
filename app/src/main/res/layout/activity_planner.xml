@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Planner">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        app:queryHint="Search Workout Plan"
-        app:iconifiedByDefault="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+<!--    <androidx.appcompat.widget.SearchView-->
+<!--        android:id="@+id/searchView"-->
+<!--        app:queryHint="Search Workout Plan"-->
+<!--        app:iconifiedByDefault="false"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        />-->
 
     <!-- Your existing LinearLayout -->
     <LinearLayout
@@ -44,8 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                app:itemIconTint="@color/white"
-                app:itemTextColor="@color/white"
+                app:itemIconTint="@color/dark"
+                app:itemTextColor="@color/dark"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_menu" />
 
@@ -58,7 +58,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/home"
             app:layout_anchor="@id/bottomAppBar"
-            app:tint="@color/white"
+            app:tint="@color/dark"
+            android:textColor="@color/dark"
             app:fabSize="normal"
             app:maxImageSize="24dp"
             android:layout_marginEnd="16dp"

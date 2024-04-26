@@ -55,23 +55,23 @@ public class Planner extends AppCompatActivity {
         });
 
 
-        searchView = findViewById(R.id.searchView);
+//        searchView = findViewById(R.id.searchView);
         listView = findViewById(R.id.fitness_plan_list_view);
         adapter = new FitnessPlanAdapter(this, displayedFitnessPlans); // Initialize the adapter
         listView.setAdapter(adapter); // Set the adapter to the ListView
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return false;
-            }
-        });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                filter(newText);
+//                return false;
+//            }
+//        });
 
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app/").getReference("fitness_plans");

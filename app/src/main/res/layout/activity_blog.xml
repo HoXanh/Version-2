@@ -16,13 +16,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchViewBlog"
-                app:queryHint="Search For Blog"
-                app:iconifiedByDefault="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+<!--            <androidx.appcompat.widget.SearchView-->
+<!--                android:id="@+id/searchViewBlog"-->
+<!--                app:queryHint="Search For Blog"-->
+<!--                app:iconifiedByDefault="false"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                />-->
 
             <Button
                 android:textAlignment="center"
@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Post a Blog"
+                android:textColor="@color/dark"
                 android:id="@id/createBlogButton"/>
 
             <ListView
@@ -59,8 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/dark"
+            app:itemTextColor="@color/dark"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu" />
 
@@ -73,10 +74,11 @@
         android:layout_height="wrap_content"
         android:src="@drawable/home"
         app:layout_anchor="@id/bottomAppBar"
-        app:tint="@color/white"
+        app:tint="@color/dark"
         app:fabSize="normal"
         app:maxImageSize="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/black"/>
+        android:backgroundTint="@color/black"
+        android:textColor="@color/dark"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

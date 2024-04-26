@@ -70,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="340dp"
         android:layout_marginLeft="207dp"
-        android:text="Select Image" />
+        android:text="Select Image"
+        android:textColor="@color/dark"/>
 
 
 
@@ -105,7 +106,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="register"
-        android:layout_marginTop="640dp" />
+        android:layout_marginTop="640dp"
+        android:textColor="@color/dark"/>
 
 
 

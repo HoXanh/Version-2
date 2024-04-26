@@ -26,7 +26,7 @@ tools:context=".MainActivity">
                 android:text="Hi there! Welcome to Trainify"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:textColor="@color/black"
+                android:textColor="@color/dark"
                 android:fontFamily="sans-serif-light"
                 android:padding="10dp" />
 
@@ -45,7 +45,7 @@ tools:context=".MainActivity">
                     android:layout_height="wrap_content"
                     android:text="Your Tracking Progress"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/dark"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -115,8 +115,8 @@ tools:context=".MainActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/dark"
+            app:itemTextColor="@color/dark"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu" />
 
@@ -131,7 +131,7 @@ tools:context=".MainActivity">
                 android:layout_height="wrap_content"
                 android:src="@drawable/add"
                 app:layout_anchor="@id/bottomAppBar"
-                app:tint="@color/white"
+                app:tint="@color/dark"
                 app:fabSize="normal"
                 app:maxImageSize="24dp"
                 android:layout_marginEnd="16dp"
