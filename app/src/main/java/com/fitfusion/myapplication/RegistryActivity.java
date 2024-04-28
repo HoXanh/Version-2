@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -162,18 +165,22 @@ import com.google.firebase.storage.UploadTask;
 public class RegistryActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private EditText username, email, password, dob, height, weight,gender;
+    private EditText username, email, password, height, weight,gender;
     private Button register, selectImageButton;
 
     private FirebaseAuth auth;
+    private String dateOfBirth;
     String weightUser;
     private ImageView profileImage;
     private Uri imageUri;
+    private DatePickerDialog datePickerDialog;
+    private Button dob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registry);
+        initDatePicker();
 
         // Initialize UI components
         username = findViewById(R.id.username);
@@ -188,7 +195,7 @@ public class RegistryActivity extends AppCompatActivity {
         selectImageButton = findViewById(R.id.select_image_btn);
 
         auth = FirebaseAuth.getInstance();
-
+        dob.setText(getTodaysDate());
         // Clear radio group selection
 
         selectImageButton.setOnClickListener(v -> openFileChooser());
@@ -197,7 +204,7 @@ public class RegistryActivity extends AppCompatActivity {
             String txt_username = username.getText().toString().trim();
             String txt_email = email.getText().toString().trim();
             String txt_password = password.getText().toString().trim();
-            String txt_dob = dob.getText().toString().trim();
+            String txt_dob = dateOfBirth;
             String txt_height = height.getText().toString().trim();
             String txt_weight = weight.getText().toString().trim();
             String txt_gender = gender.getText().toString().trim();
@@ -232,6 +239,47 @@ public class RegistryActivity extends AppCompatActivity {
             
             
         });
+    }
+
+    private String getTodaysDate() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return makeDateString(day,month,year);
+    }
+
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateOfBirth = "";
+                month = month + 1;
+                String date = makeDateString(dayOfMonth, month, year);
+                dob.setText(date);
+                dateOfBirth = dayOfMonth + "/" + month + "/" +year;
+                Log.d("RegistryActivity", dateOfBirth);
+            }
+        };
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int style = AlertDialog.THEME_HOLO_LIGHT;
+        datePickerDialog = new DatePickerDialog(this,style,dateSetListener,year,month,day);
+    }
+
+    private String makeDateString(int dayOfMonth, int month, int year) {
+        return getMonthFormat(month) + " " + dayOfMonth + " " + year;
+    }
+
+    private String getMonthFormat(int month) {
+        String[] monthList = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+        return monthList[month - 1];
+    }
+
+    public void openDatePicker(View view) {
+        datePickerDialog.show();
     }
 
     private void openFileChooser() {
@@ -356,6 +404,7 @@ public class RegistryActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 
 //    private void hello(String username,String email, String password, String gender, String dob, String height, String weight) {

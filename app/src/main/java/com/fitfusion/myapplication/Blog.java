@@ -1,21 +1,28 @@
 package com.fitfusion.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fitfusion.myapplication.Model.BlogPost;
 import com.fitfusion.myapplication.Model.FitnessPlan;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,13 +37,17 @@ import java.util.List;
 
 public class Blog extends AppCompatActivity {
 
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle drawerToggle;
+
     public static final String DATABASE_URL =
             "https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app";
     public static final String BLOGS_TABLE_NAME = "Blogs";
 
     private Button newBlogBtn;
 
-    FloatingActionButton homeBtn;
+//    FloatingActionButton homeBtn;
 
     public List<BlogPost> allPost = new ArrayList<>();
     public List<BlogPost> displayedPost = new ArrayList<>();
@@ -47,18 +58,27 @@ public class Blog extends AppCompatActivity {
     TextView text;
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        if (drawerToggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog);
 //        searchView = findViewById(R.id.searchViewBlog);
 
-        homeBtn = findViewById(R.id.fab);
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Blog.this, MainActivity.class));
-            }
-        });
+//        homeBtn = findViewById(R.id.fab);
+//        homeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(Blog.this, MainActivity.class));
+//            }
+//        });
 
         newBlogBtn = findViewById(R.id.createBlogButton);
         newBlogBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,33 +102,73 @@ public class Blog extends AppCompatActivity {
 //            }
 //        });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.fitnessPg:
-                    // Intent to go to Home Activity
-                    startActivity(new Intent(Blog.this, Planner.class));
-                    return true;
-                case R.id.foodPg:
-                    startActivity(new Intent(Blog.this, Blog.class));
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+//            switch (item.getItemId()) {
+//                case R.id.fitnessPg:
+//                    // Intent to go to Home Activity
+//                    startActivity(new Intent(Blog.this, Planner.class));
+//                    return true;
+//                case R.id.foodPg:
+//                    startActivity(new Intent(Blog.this, Blog.class));
+//
+//                    return true;
+//                case R.id.blogPg:
+//                    // Intent to go to Notifications Activity
+//                    startActivity(new Intent(Blog.this, Blog.class));
+//                    return true;
+//
+//                case R.id.profilePg:
+//                    startActivity(new Intent(Blog.this, Profile.class));
+//                    return true;
+//
+//                case R.id.homePg:
+//                    startActivity(new Intent(Blog.this, MainActivity.class));
+//                    return true;
+//            }
+//            return false;
+//        });
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.fitnessPg:
+                        // Intent to go to Home Activity
+                        startActivity(new Intent(Blog.this, Planner.class));
+                        return true;
+                    case R.id.foodPg:
+                        // Intent to go to Dashboard Activity
+                        startActivity(new Intent(Blog.this, Planner.class));
+                        return true;
+                    case R.id.blogPg:
+                        Intent intent = new Intent(Blog.this, Blog.class);
+                        startActivity(intent);
+                        return true;
 
-                    return true;
-                case R.id.blogPg:
-                    // Intent to go to Notifications Activity
-                    startActivity(new Intent(Blog.this, Blog.class));
-                    return true;
+                    case R.id.profilePg:
+                        startActivity(new Intent(Blog.this, Profile.class));
+                        return true;
 
-                case R.id.profilePg:
-                    startActivity(new Intent(Blog.this, Profile.class));
-                    return true;
+                    case R.id.homePg:
+                        startActivity(new Intent(Blog.this, MainActivity.class));
+                        return true;
 
-                case R.id.homePg:
-                    startActivity(new Intent(Blog.this, MainActivity.class));
-                    return true;
+                    case R.id.signout:
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(Blog.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Blog.this, Login.class));
+//                        finish();
+                        return true;
+                }
+                return false;
             }
-            return false;
         });
-
 //        posts = new ArrayList<>();
         adapter = new BlogPostAdapter(this, displayedPost);
         ListView listView = findViewById(R.id.blogListView);
@@ -148,6 +208,17 @@ public class Blog extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+    @Override
+    public void onBackPressed(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            drawerLayout.closeDrawer((GravityCompat.START));
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
 

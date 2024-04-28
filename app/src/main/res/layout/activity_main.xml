@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
 android:background="@color/white"
 tools:context=".MainActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="90dp"
         android:fillViewport="true"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -29,6 +29,7 @@ tools:context=".MainActivity">
                 android:textColor="@color/dark"
                 android:fontFamily="sans-serif-light"
                 android:padding="10dp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,17 +50,29 @@ tools:context=".MainActivity">
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
+
             </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:id="@+id/fab"
+                android:layout_height="wrap_content"
+                android:text="Add Metrics"
+                android:textAlignment="center"
+                android:textColor="@color/dark"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
 
             <LinearLayout
                 android:id="@+id/metricsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_above="@id/bottomAppBar"
+
                 android:layout_marginTop="16dp">
 
-
+<!--                android:layout_above="@id/bottomAppBar"-->
             </LinearLayout>
 
             <!-- Additional content can go here, and it will be part of the scrollable area -->
@@ -100,41 +113,49 @@ tools:context=".MainActivity">
 
     <!--    android:layout_marginHorizontal="40dp"-->
 <!--    android:layout_marginVertical="40dp"-->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:backgroundTint="@color/black"
-        app:elevation="8dp"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="25dp">
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu"
+        android:id="@+id/nav_view"
+        android:layout_gravity="start"/>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:itemIconTint="@color/dark"
-            app:itemTextColor="@color/dark"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_menu" />
+<!--    <com.google.android.material.bottomappbar.BottomAppBar-->
+<!--        android:id="@+id/bottomAppBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        app:backgroundTint="@color/black"-->
+<!--        app:elevation="8dp"-->
+<!--        app:fabCradleMargin="10dp"-->
+<!--        app:fabCradleRoundedCornerRadius="25dp">-->
+
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/bottomNavigationView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            app:itemIconTint="@color/dark"-->
+<!--            app:itemTextColor="@color/dark"-->
+<!--            app:labelVisibilityMode="labeled"-->
+<!--            app:menu="@menu/bottom_menu" />-->
 
 
 
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
+<!--    </com.google.android.material.bottomappbar.BottomAppBar>-->
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add"
-                app:layout_anchor="@id/bottomAppBar"
-                app:tint="@color/dark"
-                app:fabSize="normal"
-                app:maxImageSize="24dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/black"/>
+<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                android:id="@+id/fab"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/add"-->
+<!--                app:layout_anchor="@id/bottomAppBar"-->
+<!--                app:tint="@color/dark"-->
+<!--                app:fabSize="normal"-->
+<!--                app:maxImageSize="24dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:backgroundTint="@color/black"/>-->
 
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </androidx.drawerlayout.widget.DrawerLayout>

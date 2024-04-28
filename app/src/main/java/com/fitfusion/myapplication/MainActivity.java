@@ -1,9 +1,12 @@
 package com.fitfusion.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +36,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -54,6 +59,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth authProfile;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle drawerToggle;
 
     private Map<String, Pair<LineChart, List<Entry>>> metricCharts = new HashMap<>();
 
@@ -61,14 +69,67 @@ public class MainActivity extends AppCompatActivity {
     private TextView desc;
     private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    FloatingActionButton fab;
+//    FloatingActionButton fab;
     private String FirebaseUrl;
+    Button fab;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        if (drawerToggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.fitnessPg:
+                        // Intent to go to Home Activity
+                        startActivity(new Intent(MainActivity.this, Planner.class));
+                        return true;
+                    case R.id.foodPg:
+                        // Intent to go to Dashboard Activity
+                        startActivity(new Intent(MainActivity.this, Planner.class));
+                        return true;
+                    case R.id.blogPg:
+                        Intent intent = new Intent(MainActivity.this, Blog.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.profilePg:
+                        startActivity(new Intent(MainActivity.this, Profile.class));
+                        return true;
+
+                    case R.id.homePg:
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        return true;
+
+                    case R.id.signout:
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, Login.class));
+//                        finish();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+
         this.FirebaseUrl = "https://esp-g13-trainify-default-rtdb.europe-west1.firebasedatabase.app";
         metricsContainer = findViewById(R.id.metricsContainer);
 
@@ -77,32 +138,44 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> showAddMetricDialog());
 
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.fitnessPg:
-                    // Intent to go to Home Activity
-                    startActivity(new Intent(MainActivity.this, Planner.class));
-                    return true;
-                case R.id.foodPg:
-                    // Intent to go to Dashboard Activity
-                    startActivity(new Intent(MainActivity.this, Planner.class));
-                    return true;
-                case R.id.blogPg:
-                    Intent intent = new Intent(this, Blog.class);
-                    startActivity(intent);
-                    return true;
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+//            switch (item.getItemId()) {
+//                case R.id.fitnessPg:
+//                    // Intent to go to Home Activity
+//                    startActivity(new Intent(MainActivity.this, Planner.class));
+//                    return true;
+//                case R.id.foodPg:
+//                    // Intent to go to Dashboard Activity
+//                    startActivity(new Intent(MainActivity.this, Planner.class));
+//                    return true;
+//                case R.id.blogPg:
+//                    Intent intent = new Intent(this, Blog.class);
+//                    startActivity(intent);
+//                    return true;
+//
+//                case R.id.profilePg:
+//                    startActivity(new Intent(MainActivity.this, Profile.class));
+//                    return true;
+//
+//                case R.id.homePg:
+//                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                    return true;
+//            }
+//            return false;
+//        });
+    }
 
-                case R.id.profilePg:
-                    startActivity(new Intent(MainActivity.this, Profile.class));
-                    return true;
+    @Override
+    public void onBackPressed(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            drawerLayout.closeDrawer((GravityCompat.START));
+        }
+        else {
+            super.onBackPressed();
+        }
 
-                case R.id.homePg:
-                    startActivity(new Intent(MainActivity.this, MainActivity.class));
-                    return true;
-            }
-            return false;
-        });
     }
 
     private void fetchAllMetricsData() {
@@ -173,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //        metricsContainer.addView(cardView);
 //    }
+
 
     private void addMetricCard(String metricName, List<Entry> newEntries) {
         Pair<LineChart, List<Entry>> existing = metricCharts.get(metricName);

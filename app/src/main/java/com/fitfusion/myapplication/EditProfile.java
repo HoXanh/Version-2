@@ -221,10 +221,15 @@ package com.fitfusion.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -234,6 +239,7 @@ import com.bumptech.glide.Glide;
 import com.fitfusion.myapplication.Model.UserProfile;
 import com.fitfusion.myapplication.Model.Users; // Ensure this is the path to your Users model
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -242,6 +248,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class EditProfile extends AppCompatActivity {
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle drawerToggle;
     private static final int PICK_IMAGE_REQUEST = 1;
     private String username, dob, gender, height,weight, email;
     private EditText usernameET, dobET, genderET, heightET, weightET;
@@ -251,7 +261,14 @@ public class EditProfile extends AppCompatActivity {
     private FirebaseAuth authProfile;
     private String[] userData;
     private String imageUrl = ""; // Initialize to an empty string or null based on your logic
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        if (drawerToggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,37 +285,89 @@ public class EditProfile extends AppCompatActivity {
         }
 
         initViews();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.fitnessPg:
-                    // Intent to go to Home Activity
-                    startActivity(new Intent(EditProfile.this, Planner.class));
-                    return true;
-                case R.id.foodPg:
-                    startActivity(new Intent(EditProfile.this, Blog.class));
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+//            switch (item.getItemId()) {
+//                case R.id.fitnessPg:
+//                    // Intent to go to Home Activity
+//                    startActivity(new Intent(EditProfile.this, Planner.class));
+//                    return true;
+//                case R.id.foodPg:
+//                    startActivity(new Intent(EditProfile.this, Blog.class));
+//
+//                    return true;
+//                case R.id.blogPg:
+//                    // Intent to go to Notifications Activity
+//                    startActivity(new Intent(EditProfile.this, Blog.class));
+//                    return true;
+//
+//                case R.id.profilePg:
+//                    startActivity(new Intent(EditProfile.this, Profile.class));
+//                    return true;
+//
+//                case R.id.homePg:
+//                    startActivity(new Intent(EditProfile.this, MainActivity.class));
+//                    return true;
+//            }
+//            return false;
+//        });
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.fitnessPg:
+                        // Intent to go to Home Activity
+                        startActivity(new Intent(EditProfile.this, Planner.class));
+                        return true;
+                    case R.id.foodPg:
+                        // Intent to go to Dashboard Activity
+                        startActivity(new Intent(EditProfile.this, Planner.class));
+                        return true;
+                    case R.id.blogPg:
+                        Intent intent = new Intent(EditProfile.this, Blog.class);
+                        startActivity(intent);
+                        return true;
 
-                    return true;
-                case R.id.blogPg:
-                    // Intent to go to Notifications Activity
-                    startActivity(new Intent(EditProfile.this, Blog.class));
-                    return true;
+                    case R.id.profilePg:
+                        startActivity(new Intent(EditProfile.this, Profile.class));
+                        return true;
 
-                case R.id.profilePg:
-                    startActivity(new Intent(EditProfile.this, Profile.class));
-                    return true;
+                    case R.id.homePg:
+                        startActivity(new Intent(EditProfile.this, MainActivity.class));
+                        return true;
 
-                case R.id.homePg:
-                    startActivity(new Intent(EditProfile.this, MainActivity.class));
-                    return true;
+                    case R.id.signout:
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(EditProfile.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EditProfile.this, Login.class));
+//                        finish();
+                        return true;
+                }
+                return false;
             }
-            return false;
         });
 
         showUser(userData);
 
         findViewById(R.id.changeProfileImageBtn).setOnClickListener(view -> openFileChooser());
         findViewById(R.id.changeProfileBtn).setOnClickListener(view -> updateProfile(fbUser));
+    }
+    @Override
+    public void onBackPressed(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            drawerLayout.closeDrawer((GravityCompat.START));
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
     private void initViews() {

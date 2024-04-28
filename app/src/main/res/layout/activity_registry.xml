@@ -32,7 +32,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Gender"
+        android:hint="Gender (Male/Female)"
         android:id="@+id/genderET"
         android:layout_marginTop="280dp"
         android:layout_marginRight="200dp"/>
@@ -57,12 +57,28 @@
 
 
 
-    <EditText
+<!--    <EditText-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Date of Birth (dd/mm/yyyy)"-->
+<!--        android:id="@+id/dob"-->
+<!--        android:layout_marginTop="390dp"/>-->
+    <Button
+        android:layout_marginTop="390dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date of Birth (dd/mm/yyyy)"
         android:id="@+id/dob"
-        android:layout_marginTop="390dp"/>
+        android:text="JAN 01 2024"
+        android:textSize="25dp"
+        android:textColor="@color/dark"
+        style="?android:spinnerStyle"
+        app:layout_constraintLeft_toLeftOf = "parent"
+        app:layout_constraintRight_toRightOf = "parent"
+        app:layout_constraintTop_toBottomOf = "@+id/select_image_btn"
+        android:onClick="openDatePicker"/>
+
+
+
 
 
     <EditText
